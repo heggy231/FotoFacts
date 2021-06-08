@@ -1,6 +1,7 @@
 Hey everyone, quick reminder about homework...
 1. Build your team, 3 members max.
 
+https://github.com/heggy231/FotoFacts
 
 2.  Prepare a simple description that describes your application. It should answer the following questions
 - Description: This is an online photo database that allows the user to upload pictures with customized metadata.
