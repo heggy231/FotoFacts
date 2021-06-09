@@ -1,0 +1,16 @@
+1. list of images on home.html
+
+2. go into image and create a detail page 
+    a. Photo on the left and details on the right 
+
+3. Create a link to the form on home.html 
+
+4. Create createphoto.html form where allows users to enter following: - **Teila**
+    a. event, 
+    b. attendee(s), 
+    c. detail of moment captured
+    d. date/time
+
+5. Oauth page  - **Heggy**
+
+6. SQL database and table(s) - **Avery**
