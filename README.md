@@ -1,3 +1,4 @@
+# FotoFacts
 Hey everyone, quick reminder about homework...
 1. Build your team, 3 members max.
 
@@ -31,3 +32,11 @@ These may seem redundant and oversimplified but answering these questions will h
 
 4. Start a repo at GitHub and share the link here in the chat
 
+
+- Heggy's note on OAuth:
+
+Facebook Setup for callback URL and ClientID, ClientSecret
+1. https://developers.facebook.com/docs/facebook-login/web/
+    A Facebook Developer Account
+    A registered Facebook App with Basic Settings configured
+    The Facebook JavaScript SDK

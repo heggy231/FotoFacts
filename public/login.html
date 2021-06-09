@@ -52,5 +52,50 @@
                 </a>
             </div>
         </div>
+        <script>
+            // Set Up the Facebook SDK for Javascript
+            window.fbAsyncInit = function() {
+                FB.init({
+                appId      : "319503049633109",
+                cookie     : true,
+                xfbml      : true,
+                version    : "v11.0"
+                });
+                
+                FB.AppEvents.logPageView();   
+                
+            };
+
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const form = document.getElementById("signup");
+
+                form.onsubmit = (e)=> {
+                    e.preventDefault();
+                    
+                    const formdata = new FormData(e.target);
+                    const entries = formdata.entries();
+                    const data = Object.fromEntries(entries);
+
+                     // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+                    fetch("/profile", {
+                        "method": "POST",
+                        "headers": {
+                            'Content-Type': 'application/json'
+                        },
+                        "body": JSON.stringify(data) // body data type must match "Content-Type" header
+                    })
+
+                    console.log("POSTed data to /signup")
+                }
+            })
+        </script>
     </body>
 </html>
