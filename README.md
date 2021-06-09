@@ -1,5 +1,18 @@
-# FotoFacts
-Hey everyone, quick reminder about homework...
+# [FotoFacts](https://github.com/heggy231/FotoFacts)
+
+## how to run
+- > npm i // gets your all the project dependencies listed in `package.json`
+- Create .env file on your root directory.  Add your own GITHUB_CLIENT_ID AND GITHUB_CLIENT_SECRET
+
+// inside of your .env file
+```
+GITHUB_CLIENT_ID=*****************
+GITHUB_CLIENT_SECRET=**************
+```
+<hr>
+
+
+
 
 1. Build your team, 3 members max.
 
