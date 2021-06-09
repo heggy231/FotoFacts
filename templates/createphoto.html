@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    // form data
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("signup");
+
+      form.onsubmit = (e)=> {
+          e.preventDefault();
+          
+          const formdata = new FormData(e.target);
+          const entries = formdata.entries();
+          const data = Object.fromEntries(entries);
+
+            // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+          fetch("/profile", {
+              "method": "POST",
+              "headers": {
+                  'Content-Type': 'application/json'
+              },
+              "body": JSON.stringify(data) // body data type must match "Content-Type" header
+          })
+
+          console.log("POSTed data to /signup")
+      }
+  })
+  </script>
+</body>
+</html>

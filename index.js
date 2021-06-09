@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const es6Renderer = require('express-es6-template-engine');
@@ -62,6 +63,13 @@ function(accessToken, refreshToken, profile, cb) {
 
 app.get('/heartbeat', (req, res) => {
   res.send('I am up');
+});
+
+app.get('*', (req, res) => {
+  /**
+   * catch all route redirect back home
+   */
+  res.status(404).redirect('/');
 });
 
 app.listen('8080', () => {
