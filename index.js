@@ -8,12 +8,16 @@ const session = require('express-session');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 
+const data = require('./dataObject');
+
 const app = express();
 
 // ----------------------------------------------------------------------------
 //                                Middleware                           
 // ----------------------------------------------------------------------------
 app.use(cors());
+// __dirname is root of the project, Server will look inside public for static file (https://learn.digitalcrafts.com/flex/lessons/back-end-foundations/express-middleware/#serving-static-files)
+// app.use('/', express.static(__dirname + '/public'));
 app.use(express.static('public'));
 // body parsing
 app.use(express.json());
@@ -21,7 +25,7 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 
 // Configure Template Engine
 app.engine('html', es6Renderer);
-app.set('views', 'templates');
+app.set('views', 'templates'); // when looking for views => dir:templates folder
 app.set('view engine', 'html');
 
 // order matters: session middleware before Passport OAuth
@@ -60,16 +64,92 @@ function(accessToken, refreshToken, profile, cb) {
 }
 ));
 
+// Attach the passport middleware to express
+app.use(passport.initialize())
+// BEGIN these next lines make it work with the session middleware
+app.use(passport.session())
+
+passport.serializeUser(function(user, done) {
+  //What goes INTO the session here; right now it's everything in User
+  done(null, user);
+});
+
+passport.deserializeUser(function(id, done) {
+  done(null, id);
+  //This is looking up the User in the database using the information from the session "id"
+});
 
 app.get('/heartbeat', (req, res) => {
   res.send('I am up');
 });
 
-app.get('*', (req, res) => {
+// function to restrict access to routes unless loggedin
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  res.redirect('/login.html');
+}
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+// Callback: this must match the name in the GitHubStrategy above AND the one we typed in Github UI
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+});
+
+// logs you out then redirect to root index.html list of photos
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
+// Post/upload new photos
+app.post("/uploadphoto", ensureAuthenticated, (req, res) => {
+  console.log('req.body ===******>!!!!!!', req.body);
+
+  // Create ID
+  const id = uuidv4();
+
+  // Save data to server "db"
+  req.body.id = id;
+  req.body.images = [];
+  data[id] = req.body;
+
+  res.status(200).send();
+});
+
+app.get('/', ensureAuthenticated, (req, res) => {
+  const photoIds = Object.keys(data);
+  const photoArray = photoIds.map( id => data[id]);
+
+  res.render('index', {
+    locals: {
+      title: '🎞️ FotoFacts',
+      photoArray
+    },
+    partials: {
+      header: 'header'
+    }
+  });
+});
+
+app.get('*', ensureAuthenticated, (req, res) => {
   /**
    * catch all route redirect back home
    */
-  res.status(404).redirect('/');
+  res.status(404).render('notfound', {
+    locals: {
+      title: '🎞️ FotoFacts 404 Error'
+    },
+    partials: {
+      header: 'header'
+    }
+  });
 });
 
 app.listen('8080', () => {

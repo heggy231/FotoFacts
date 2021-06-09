@@ -52,3 +52,21 @@ Facebook Setup for callback URL and ClientID, ClientSecret
     A Facebook Developer Account
     A registered Facebook App with Basic Settings configured
     The Facebook JavaScript SDK
+
+
+Problem:
+Not showing up using the folders
+
+<img src="https://media.tenor.com/images/60ca41c887fc2d1c204ba661677f26e3/tenor.gif" alt="magic shia">
+
+<img src="https://cdn.glitch.com/cb093bfd-142f-45b3-bdb4-52ff49e0a1c2%2Fgrumpy.gif?v=1619841777278" alt="husky angry">
+
+random img url:
+https://placeimg.com/128/128/arch/sepia
+
+https://placeimg.com/128/128/animals/grayscale
+
+randome email: 
+kim@co.com
+
+name: Jo Mo
