@@ -115,7 +115,7 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-// Post/upload new photos
+// Post/upload new photos Create new Photo
 app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
   // req.body contains an Object with firstName, lastName, email
   console.log("req.body ===******>!!!!!!", req.body);
