@@ -1,8 +1,24 @@
 # [FotoFacts](https://github.com/heggy231/FotoFacts)
 
-## how to run
+## prettier-eslint-cli
+> npm i -D prettier-eslint-cli
+
+> Add this to your package.json scripts section: prettier-eslint --write \"./**/*.js\
+
+## how to run:
 - > npm i // gets your all the project dependencies listed in `package.json`
-- Create .env file on your root directory.  Add your own GITHUB_CLIENT_ID AND GITHUB_CLIENT_SECRET
+- Create .env file on your root directory.  Add your own FACEBOOK_CLIENT_ID=*******
+FACEBOOK_SECRET=*******
+
+GITHUB_CLIENT_ID=******
+GITHUB_CLIENT_SECRET=******
+
+DATABASE_USERNAME=******
+DATABASE_PASSWORD=******
+
+DATABASE_NAME=******
+HOST=******
+
 
 // inside of your .env file
 ```
@@ -11,7 +27,8 @@ GITHUB_CLIENT_SECRET=**************
 ```
 <hr>
 
-
+### handy link:
+https://learn.digitalcrafts.com/flex/lessons/databases/sequelize-orm/#sequelize-and-the-sequelize-cli
 
 
 1. Build your team, 3 members max.
@@ -70,3 +87,15 @@ randome email:
 kim@co.com
 
 name: Jo Mo
+
+example code:
+> npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+
+
+> npx sequelize-cli model:generate --name User --attributes eventTitle:string,attendee1Name:string,attendee2Name:string,attendee3Name:string,eventSummary:string,insertLinktoPhoto:string
+
+- form labels:
+Event Title, Attendee 1,  Attendee 2, Attendee 3, Event Summary, Insert  link to Photo
+
+- feature idea:
+Attendee ID table and Photo table use join.
