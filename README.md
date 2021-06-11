@@ -5,7 +5,7 @@
 
 > Add this to your package.json scripts section: prettier-eslint --write \"./**/*.js\
 
-## how to run:
+## How to run:
 - > npm i // gets your all the project dependencies listed in `package.json`
 - Create .env file on your root directory.  Add your own FACEBOOK_CLIENT_ID=*******
 FACEBOOK_SECRET=*******
@@ -19,7 +19,6 @@ DATABASE_PASSWORD=******
 DATABASE_NAME=******
 HOST=******
 
-
 // inside of your .env file
 ```
 GITHUB_CLIENT_ID=*****************
@@ -27,9 +26,14 @@ GITHUB_CLIENT_SECRET=**************
 ```
 <hr>
 
+## Before you push up your changes to github please run prettier:
+> npm run pretty 
+
 ### handy link:
 https://learn.digitalcrafts.com/flex/lessons/databases/sequelize-orm/#sequelize-and-the-sequelize-cli
 
+- to run sql in beekpeer remember to add double qoute for table name.
+> SELECT * FROM "Users";
 
 1. Build your team, 3 members max.
 
@@ -99,3 +103,12 @@ Event Title, Attendee 1,  Attendee 2, Attendee 3, Event Summary, Insert  link to
 
 - feature idea:
 Attendee ID table and Photo table use join.
+
+User.init({
+  eventTitle: DataTypes.STRING,
+  attendee1Name: DataTypes.STRING,
+  attendee2Name: DataTypes.STRING,
+  attendee3Name: DataTypes.STRING,
+  eventSummary: DataTypes.STRING,
+  insertLinktoPhoto: DataTypes.STRING
+}
