@@ -5,10 +5,20 @@ const es6Renderer = require("express-es6-template-engine");
 // named export: v4 but rename it uuidv4
 const { v4: uuidv4 } = require("uuid");
 const session = require("express-session");
+<<<<<<< HEAD
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
 // const data = require("./dataObject");
+=======
+const Sequelize = require('sequelize');
+const { User } = require('./models');
+const passport = require("passport");
+const GitHubStrategy = require("passport-github").Strategy;
+
+
+const data = require("./dataObject");
+>>>>>>> dev
 
 const app = express();
 
@@ -33,7 +43,11 @@ app.set("view engine", "html");
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
+<<<<<<< HEAD
   cookie: { maxAge: 60000 },
+=======
+  cookie: { maxAge: 60000 }
+>>>>>>> dev
 };
 app.use(session(sess));
 
@@ -49,15 +63,22 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
+<<<<<<< HEAD
       callbackURL: "http://localhost:8080/auth/github/callback",
     },
     function (accessToken, refreshToken, profile, cb) {
+=======
+      callbackURL: "http://localhost:8080/auth/github/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+>>>>>>> dev
       // user profile
       console.log(JSON.stringify(profile));
 
       // ASIDE: Access Tokens are super important!! Treat them like pwd (never store in plain text)
       // You can use this to talk to Github API
       console.log("Access Token: " + accessToken);
+<<<<<<< HEAD
 
       // Tell passport job is done. Move on, I got user profile
       // this callback runs when someone logs-in
@@ -142,17 +163,123 @@ app.get("/", ensureAuthenticated, (req, res) => {
   });
 });
 
+=======
+
+      // Tell passport job is done. Move on, I got user profile
+      // this callback runs when someone logs-in
+      // cb(errorMessage = Null No error here, profile=>save the profile info)
+      cb(null, profile);
+    }
+  )
+);
+
+// Attach the passport middleware to express
+app.use(passport.initialize());
+// BEGIN these next lines make it work with the session middleware
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  //What goes INTO the session here; right now it's everything in User
+  done(null, user);
+});
+
+passport.deserializeUser(function(id, done) {
+  done(null, id);
+  //This is looking up the User in the database using the information from the session "id"
+});
+
+app.get("/heartbeat", (req, res) => {
+  res.send("I am up");
+});
+
+// function to restrict access to routes unless loggedin
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login.html");
+}
+
+app.get("/auth/github", passport.authenticate("github"));
+
+// Callback: this must match the name in the GitHubStrategy above AND the one we typed in Github UI
+app.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/");
+  }
+);
+
+// logs you out then redirect to root index.html list of photos
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
+// Post/upload new photos Create new Photo
+app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
+  // req.body contains an Object with firstName, lastName, email
+  console.log("req.body ===******>!!!!!!", req.body);
+  const { 
+    eventTitle,
+    attendee1Name,
+    attendee2Name,
+    attendee3Name,
+    eventSummary,
+    insertLinktoPhoto
+  } = req.body;
+  const newUser = await User.create({
+    eventTitle,
+    attendee1Name,
+    attendee2Name,
+    attendee3Name,
+    eventSummary,
+    insertLinktoPhoto
+  });
+
+  // Send back the new user's ID in the response:
+  res.json({
+    id: newUser.id
+  });
+});
+
+app.get("/", ensureAuthenticated, (req, res) => {
+  const photoIds = Object.keys(data);
+  const photoArray = photoIds.map(id => data[id]);
+
+  res.render("index", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      photoArray
+    },
+    partials: {
+      header: "header"
+    }
+  });
+});
+
+>>>>>>> dev
 app.get("*", ensureAuthenticated, (req, res) => {
   /**
    * catch all route redirect back home
    */
   res.status(404).render("notfound", {
     locals: {
+<<<<<<< HEAD
       title: "🎞️ FotoFacts 404 Error",
     },
     partials: {
       header: "header",
     },
+=======
+      title: "🎞️ FotoFacts 404 Error"
+    },
+    partials: {
+      header: "header"
+    }
+>>>>>>> dev
   });
 });
 

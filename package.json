@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "pretty": "prettier-eslint --write \"*.js\""
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7",
+<<<<<<< HEAD
+=======
+    "prettier-eslint-cli": "^5.0.1",
+>>>>>>> dev
     "sequelize-cli": "^6.2.0"
   }
 }
