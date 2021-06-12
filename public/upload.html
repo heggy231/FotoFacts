@@ -1,95 +1,182 @@
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- favicon -->
-    <link rel="shortcut icon" href="/images/photofav.jpeg" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="public\images\FotoFacts Logo.png"
+      type="image/x-icon"
+    />
     <!-- bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
     <!-- custom css -->
     <style>
-        .content {
-            width: 400px;
-            margin: auto;
-        }
+      .content {
+        width: 400px;
+        margin: auto;
+      }
 
-        .profile {
-            display: flex;
-            align-items: center;
-        }
+      .profile {
+        display: flex;
+        align-items: center;
+      }
 
-        .profile-name {
-            vertical-align: middle;
-            flex-grow: 1;
-            text-align: center;
-        }
+      .profile-name {
+        vertical-align: middle;
+        flex-grow: 1;
+        text-align: center;
+      }
 
-        .text-center {
-            text-align: center;
-        }
+      .text-center {
+        text-align: center;
+      }
 
-        .avatar {
-            border-radius: 50%;
-        }
+      .avatar {
+        border-radius: 50%;
+      }
 
-        .photo-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
+      .photo-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
 
-        .post {
-            width: 100px;
-        }
+      .post {
+        width: 100px;
+      }
     </style>
     <title>FotoFacts</title>
   </head>
-    <body>
-        <div class="content">
-            <h1 class="text-center">🎞️ FotoFacts</h1>
-            <h3 class="text-center">UPLOAD PAGE</h3>
-            <div>
-                <form id="upload">
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Name</label>
-                      <input type="text" class="form-control" id="name" name="name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="avatar" class="form-label">Photo Image URL</label>
-                        <input type="text" class="form-control" id="avatar" name="avatar" required />
-                    </div>                    
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const form = document.getElementById("upload");
+  <body>
+    <div class="content">
+      <h1 class="text-center">📸 FotoFacts</h1>
+      <h3 class="text-center">⬆ UPLOAD PAGE</h3>
+      <div>
+        <form id="upload">
+          <div class="mb-3">
+            <label for="categories">Choose a Type of Event:</label>
+            <select id="categories" name="categories">
+              <option value="anniversary">Anniversary</option>
+              <option value="baby">Baby</option>
+              <option value="birthday">Birthday</option>
+              <option value="funny">Funny</option>
+              <option value="graduation">Graduation</option>
+              <option value="holidays">Holidays</option>
+              <option value="trips">Trips</option>
+              <option value="weddings">Weddings</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="Category" class="form-label">Category</label>
+            <input
+              type="text"
+              class="form-control"
+              id="Category"
+              name="Category"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="Event title" class="form-label">Event title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="event title"
+              name="event title"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="Attendee name 1" class="form-label"
+              >Attendee name 1</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Attendee name 1"
+              name="Attendee name 1"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="Attendee name 2" class="form-label"
+              >Attendee name 2</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Attendee name 1"
+              name="Attendee name 2"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="Attendee name 3" class="form-label"
+              >Attendee name 3</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="Attendee name 1"
+              name="Attendee name 3"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="Event Summary" class="form-label">Event Summary</label>
+            <input
+              type="text"
+              class="form-control"
+              id="Event Summary"
+              name="Event Summary"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="Link to Photo" class="form-label">Link to Photo</label>
+            <input
+              type="text"
+              class="form-control"
+              id="Link to Photo"
+              name="Link to Photo"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("upload");
 
-                form.onsubmit = (e)=> {
-                    e.preventDefault();
-                    
-                    const formdata = new FormData(e.target);
-                    const entries = formdata.entries();
-                    const data = Object.fromEntries(entries);
+        form.onsubmit = (e) => {
+          e.preventDefault();
 
-                    // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-                    fetch("/uploadphoto", {
-                        "method": "POST",
-                        "headers": {
-                            'Content-Type': 'application/json'
-                        },
-                        "body": JSON.stringify(data) // body data type must match "Content-Type" header
-                    })
+          const formdata = new FormData(e.target);
+          const entries = formdata.entries();
+          const data = Object.fromEntries(entries);
 
-                    console.log("POSTed data to /upload")
-                }
-            })
-        </script>
-    </body>
+          // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+          fetch("/uploadphoto", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+          });
+
+          console.log("POSTed data to /upload");
+        };
+      });
+    </script>
+  </body>
 </html>

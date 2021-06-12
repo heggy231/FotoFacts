@@ -5,11 +5,10 @@ const es6Renderer = require("express-es6-template-engine");
 // named export: v4 but rename it uuidv4
 const { v4: uuidv4 } = require("uuid");
 const session = require("express-session");
-const Sequelize = require('sequelize');
-const { User } = require('./models');
+const Sequelize = require("sequelize");
+const { User } = require("./models");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
-
 
 const data = require("./dataObject");
 
@@ -119,7 +118,7 @@ app.get("/logout", (req, res) => {
 app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
   // req.body contains an Object with firstName, lastName, email
   console.log("req.body ===******>!!!!!!", req.body);
-  const { 
+  const {
     eventTitle,
     attendee1Name,
     attendee2Name,
