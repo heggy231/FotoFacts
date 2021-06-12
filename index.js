@@ -8,7 +8,7 @@ const session = require("express-session");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
-const data = require("./dataObject");
+// const data = require("./dataObject");
 
 const app = express();
 
