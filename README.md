@@ -82,10 +82,16 @@ Not showing up using the folders
 
 <img src="https://cdn.glitch.com/cb093bfd-142f-45b3-bdb4-52ff49e0a1c2%2Fgrumpy.gif?v=1619841777278" alt="husky angry">
 
-random img url:
+### database: Sequelize ORM
+ )not pg-promise)
+- https://learn.digitalcrafts.com/flex/lessons/databases/data-modeling/#likeypix-a-photo-sharing-social-media-site
+
+### random img url:
 https://placeimg.com/128/128/arch/sepia
 
 https://placeimg.com/128/128/animals/grayscale
+
+https://placeimg.com/500/500/random
 
 randome email: 
 kim@co.com
@@ -112,3 +118,13 @@ User.init({
   eventSummary: DataTypes.STRING,
   insertLinktoPhoto: DataTypes.STRING
 }
+
+## ERD
+- [live ERD](https://app.diagrams.net/#G1kp7jivxXKaWsECSBpltwKVHOv3m3nlXI)
+
+![erd](./public/images/wireframe.png)
+
+- What this app does: (Todo: update with our photo info and respective endpoints)
+1. The `/profile` page displays all users in the db
+1. The `/profile/:id` route displays an individual user from the db
+1. The signup page creates a new profile.

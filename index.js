@@ -117,7 +117,7 @@ app.get("/logout", (req, res) => {
 
 // Post/upload new photos Create new Photo
 app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
-  // req.body contains an Object with firstName, lastName, email
+  // req.body contains an Object with Name, email, url
   console.log("req.body ===******>!!!!!!", req.body);
   const { 
     eventTitle,
@@ -140,6 +140,16 @@ app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
   res.json({
     id: newUser.id
   });
+});
+
+app.get("/sessiondata", ensureAuthenticated, (req, res) => {
+  console.log(`
+    You are on session data page req.session
+  `);
+  res.send(`
+    <h1>Session Data (from the server) req.session:</h1>
+    <pre>${JSON.stringify(req.session, null, "\t")}</pre>
+  `);
 });
 
 app.get("/", ensureAuthenticated, (req, res) => {
