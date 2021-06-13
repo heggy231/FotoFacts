@@ -152,6 +152,17 @@ app.get("/sessiondata", ensureAuthenticated, (req, res) => {
   `);
 });
 
+app.get("/kdrama", ensureAuthenticated, (req, res) => {
+  res.send(`<h1>Our super secret best kdrama list:</h1>
+    <ul>
+      <li>Autum in My Heart</li>
+      <li>Full House</li>
+      <li>Stairway to Heaven</li>
+    </ul>
+  `);
+});
+
+// list photos here
 app.get("/", ensureAuthenticated, (req, res) => {
   const photoIds = Object.keys(data);
   const photoArray = photoIds.map(id => data[id]);
@@ -159,7 +170,8 @@ app.get("/", ensureAuthenticated, (req, res) => {
   res.render("index", {
     locals: {
       title: "🎞️ FotoFacts",
-      photoArray
+      photoArray,
+      path: req.path
     },
     partials: {
       header: "header"
