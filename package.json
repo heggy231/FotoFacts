@@ -34,10 +34,7 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7",
-<<<<<<< HEAD
-=======
     "prettier-eslint-cli": "^5.0.1",
->>>>>>> dev
     "sequelize-cli": "^6.2.0"
   }
 }
