@@ -1,28 +1,40 @@
 # [FotoFacts](https://github.com/heggy231/FotoFacts)
 
-## prettier-eslint-cli
+## install prettier-eslint-cli
 > npm i -D prettier-eslint-cli
 
-> Add this to your package.json scripts section: prettier-eslint --write \"./**/*.js\
+* Add this script to your package.json scripts section: 
+> "pretty": "prettier-eslint --write \"*.js\""
 
 ## How to run:
 - > npm i // gets your all the project dependencies listed in `package.json`
-- Create .env file on your root directory.  Add your own FACEBOOK_CLIENT_ID=*******
+- Create .env file on your root directory.  * Add your own
+
+FACEBOOK_CLIENT_ID=*******
 FACEBOOK_SECRET=*******
 
 GITHUB_CLIENT_ID=******
-GITHUB_CLIENT_SECRET=******
+GITHUB_CLIENT_SECRET=
 
-DATABASE_USERNAME=******
-DATABASE_PASSWORD=******
-
-DATABASE_NAME=******
-HOST=******
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fotofacts
+DB_USER=<fill in Windows only>
+DB_PASS=<fill in Windows only>
 
 // inside of your .env file
 ```
-GITHUB_CLIENT_ID=*****************
-GITHUB_CLIENT_SECRET=**************
+FACEBOOK_CLIENT_ID=*******
+FACEBOOK_SECRET=*******
+
+GITHUB_CLIENT_ID=******
+GITHUB_CLIENT_SECRET=
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fotofacts
+DB_USER=<fill in Windows only>
+DB_PASS=<fill in Windows only>
 ```
 <hr>
 
@@ -82,10 +94,16 @@ Not showing up using the folders
 
 <img src="https://cdn.glitch.com/cb093bfd-142f-45b3-bdb4-52ff49e0a1c2%2Fgrumpy.gif?v=1619841777278" alt="husky angry">
 
-random img url:
+### database: Sequelize ORM
+ )not pg-promise)
+- https://learn.digitalcrafts.com/flex/lessons/databases/data-modeling/#likeypix-a-photo-sharing-social-media-site
+
+### random img url:
 https://placeimg.com/128/128/arch/sepia
 
 https://placeimg.com/128/128/animals/grayscale
+
+https://placeimg.com/500/500/random
 
 randome email: 
 kim@co.com
@@ -112,3 +130,13 @@ User.init({
   eventSummary: DataTypes.STRING,
   insertLinktoPhoto: DataTypes.STRING
 }
+
+## ERD
+- [live ERD](https://app.diagrams.net/#G1kp7jivxXKaWsECSBpltwKVHOv3m3nlXI)
+
+![erd](./public/images/wireframe.png)
+
+- What this app does: (Todo: update with our photo info and respective endpoints)
+1. The `/profile` page displays all users in the db
+1. The `/profile/:id` route displays an individual user from the db
+1. The signup page creates a new profile.
