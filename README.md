@@ -1,28 +1,40 @@
 # [FotoFacts](https://github.com/heggy231/FotoFacts)
 
-## prettier-eslint-cli
+## install prettier-eslint-cli
 > npm i -D prettier-eslint-cli
 
-> Add this to your package.json scripts section: prettier-eslint --write \"./**/*.js\
+* Add this script to your package.json scripts section: 
+> "pretty": "prettier-eslint --write \"*.js\""
 
 ## How to run:
 - > npm i // gets your all the project dependencies listed in `package.json`
-- Create .env file on your root directory.  Add your own FACEBOOK_CLIENT_ID=*******
+- Create .env file on your root directory.  * Add your own
+
+FACEBOOK_CLIENT_ID=*******
 FACEBOOK_SECRET=*******
 
 GITHUB_CLIENT_ID=******
-GITHUB_CLIENT_SECRET=******
+GITHUB_CLIENT_SECRET=
 
-DATABASE_USERNAME=******
-DATABASE_PASSWORD=******
-
-DATABASE_NAME=******
-HOST=******
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fotofacts
+DB_USER=<fill in Windows only>
+DB_PASS=<fill in Windows only>
 
 // inside of your .env file
 ```
-GITHUB_CLIENT_ID=*****************
-GITHUB_CLIENT_SECRET=**************
+FACEBOOK_CLIENT_ID=*******
+FACEBOOK_SECRET=*******
+
+GITHUB_CLIENT_ID=******
+GITHUB_CLIENT_SECRET=
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fotofacts
+DB_USER=<fill in Windows only>
+DB_PASS=<fill in Windows only>
 ```
 <hr>
 

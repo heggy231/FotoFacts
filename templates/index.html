@@ -16,15 +16,15 @@
   <main class="content">
     ${header}
     <h5 class="text-center">
-      <a href="/upload.html">UPLOAD PHOTO</a> ||
+      <a href="/upload-v1.html">UPLOAD PHOTO</a> ||
       <a href="/logout">LOGOUT</a>
     </h5>
     <div>
-      ${photoArray.map(photo => `
+      ${users.map(photo => `
         <div class="photo">
-          <img src="${photo.avatar}" alt="photo.name" class="avatar">
+          <img src="${photo.dataValues.insertLinktoPhoto}" alt="photo.dataValues.eventTitle" class="avatar">
           <h2 class="photo-name">
-            <a href="${path}uploadphoto/${photo.id}">${photo.name}</a>
+            <a href="${path}uploadphoto/${photo.dataValues.id}">${photo.dataValues.eventTitle}</a>
           </h2>
         </div>
         `).join('')}
