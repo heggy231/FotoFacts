@@ -114,7 +114,104 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-// 4. Detail photo info: to retrieve a row by the id use .findByPk() (find by primary key):
+// list photos here
+app.get("/", ensureAuthenticated, async (req, res) => {
+  // app.get("/", async (req, res) => {
+  const users = await User.findAll();
+  // const photoArray = photoIds.map(id => data[id]);
+/**
+ * [
+  User {
+    dataValues: {
+      id: 1,
+      eventTitle: "Teila's birthday",
+      attendee1Name: 'Heggy',
+      attendee2Name: 'Avery',
+      attendee3Name: 'Dan',
+      eventSummary: 'Best birthday party ever!',
+      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
+      createdAt: 2021-06-11T01:12:10.511Z,
+      updatedAt: 2021-06-11T01:12:10.511Z
+    },
+  */
+  console.log('!!!!!*****db data on users root:', users);
+  res.render("index", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      users,
+      path: req.path
+    },
+    partials: {
+      header: "header"
+    }
+  });
+});
+
+// Post/upload new photos Create new Photo
+app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
+  // app.post("/uploadphoto", async (req, res) => {
+    // req.body contains an Object with Name, email, url
+  
+  const { 
+    eventTitle,
+    attendee1Name,
+    attendee2Name,
+    attendee3Name,
+    eventSummary,
+    insertLinktoPhoto
+  } = req.body;
+
+  console.log("req.body ===******>!!!!!!", req.body);
+  const newUser = await User.create({
+    eventTitle,
+    attendee1Name,
+    attendee2Name,
+    attendee3Name,
+    eventSummary,
+    insertLinktoPhoto
+  });
+
+  // Send back the new user's ID in the response:
+  res.json({
+    "message": "new photo created success",
+    "id": newUser.id,
+    "eventTitle": newUser.eventTitle
+  });
+  // res.redirect('/');
+});
+
+// Delete Photo
+app.delete('/uploadphoto/:id', async (req, res) => {
+  const { id } = req.params;
+  const deletedUser = await User.destroy({
+    where: {
+      id
+    }
+  });
+  res.json({
+    "message": "Photo deleted success",
+    "deletedUser": deletedUser
+  });
+});
+
+// UPDATE existing Photo
+app.post('/uploadphoto/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const updatedUser = await User.update(req.body, {
+    where: {
+      id
+    }
+  });
+
+  res.json({
+    "message": "Update one Photo entry success",
+    "updatedUser": updatedUser
+  });
+  // res.json(updatedUser);
+});
+
+// GET all Detail photo info: to retrieve a row by the id
 /**
  * {
   dataValues: {
@@ -129,6 +226,7 @@ app.get("/logout", (req, res) => {
     updatedAt: 2021-06-11T01:12:10.511Z
   }
  */
+// put route param :id last of uploadphoto order
 app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
   // app.get("/uploadphoto/:id", async (req, res) => {
   console.log('!!!!req.params.id', req.params.id);
@@ -165,44 +263,16 @@ app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
   }
   catch (error) {
     console.log(error);
-    res.status(404).render("notfound");
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error"
+      },
+      partials: {
+        header: "header"
+      }
+    });
   }
 });
-
-// Post/upload new photos Create new Photo
-app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
-// app.post("/uploadphoto", async (req, res) => {
-  // req.body contains an Object with Name, email, url
-
-  const { 
-    eventTitle,
-    attendee1Name,
-    attendee2Name,
-    attendee3Name,
-    eventSummary,
-    insertLinktoPhoto
-  } = req.body;
-
-  console.log("req.body ===******>!!!!!!", req.body);
-  const newUser = await User.create({
-    eventTitle,
-    attendee1Name,
-    attendee2Name,
-    attendee3Name,
-    eventSummary,
-    insertLinktoPhoto
-  });
-
-  // Send back the new user's ID in the response:
-  res.json({
-    "message": "new photo created success",
-    "id": newUser.id,
-    "eventTitle": newUser.eventTitle
-  });
-  // res.redirect('/');
-});
-
-
 
 app.get("/sessiondata", ensureAuthenticated, (req, res) => {
   console.log(`
@@ -222,40 +292,6 @@ app.get("/kdrama", ensureAuthenticated, (req, res) => {
       <li>Stairway to Heaven</li>
     </ul>
   `);
-});
-
-
-// list photos here
-app.get("/", ensureAuthenticated, async (req, res) => {
-// app.get("/", async (req, res) => {
-  const users = await User.findAll();
-  // const photoArray = photoIds.map(id => data[id]);
-/**
- * [
-  User {
-    dataValues: {
-      id: 1,
-      eventTitle: "Teila's birthday",
-      attendee1Name: 'Heggy',
-      attendee2Name: 'Avery',
-      attendee3Name: 'Dan',
-      eventSummary: 'Best birthday party ever!',
-      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
-      createdAt: 2021-06-11T01:12:10.511Z,
-      updatedAt: 2021-06-11T01:12:10.511Z
-    },
- */
-  console.log('!!!!!*****db data on users root:', users);
-  res.render("index", {
-    locals: {
-      title: "🎞️ FotoFacts",
-      users,
-      path: req.path
-    },
-    partials: {
-      header: "header"
-    }
-  });
 });
 
 app.get("*", ensureAuthenticated, (req, res) => {
