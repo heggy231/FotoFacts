@@ -132,18 +132,41 @@ app.get("/logout", (req, res) => {
 app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
   // app.get("/uploadphoto/:id", async (req, res) => {
   console.log('!!!!req.params.id', req.params.id);
-  const oneUser = await User.findOne({
-    where: {
-      id: req.params.id
+  // error handling
+  try {
+    const oneUser = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    console.log('!!!!*******oneUser result', oneUser);
+
+    if (oneUser === null) {
+      res.status(404).render("notfound", {
+        locals: {
+          title: "🎞️ FotoFacts 404 Error"
+        },
+        partials: {
+          header: "header"
+        }
+      });
+      return
     }
-  });
-  console.log('!!!!*******oneUser result', oneUser);
-  res.render("detail", {
-    locals: {
-      oneUser,
-      title: "🎞️ FotoFacts detail"
-    }
-  });
+
+    res.render("detail", {
+      locals: {
+        oneUser,
+        title: "🎞️ FotoFacts detail"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(404).render("notfound");
+  }
 });
 
 // Post/upload new photos Create new Photo
