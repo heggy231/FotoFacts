@@ -129,22 +129,22 @@ app.get("/logout", (req, res) => {
     updatedAt: 2021-06-11T01:12:10.511Z
   }
  */
-// app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
-  app.get("/uploadphoto/:id", async (req, res) => {
-    console.log('!!!!req.params.id', req.params.id);
-    const oneUser = await User.findOne({
-      where: {
-        id: req.params.id
-      }
-    });
-    console.log('!!!!*******oneUser result', oneUser);
-    res.render("detail", {
-      locals: {
-        oneUser,
-        title: "🎞️ FotoFacts detail"
-      }
-    });
+app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
+  // app.get("/uploadphoto/:id", async (req, res) => {
+  console.log('!!!!req.params.id', req.params.id);
+  const oneUser = await User.findOne({
+    where: {
+      id: req.params.id
+    }
   });
+  console.log('!!!!*******oneUser result', oneUser);
+  res.render("detail", {
+    locals: {
+      oneUser,
+      title: "🎞️ FotoFacts detail"
+    }
+  });
+});
 
 // Post/upload new photos Create new Photo
 app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
