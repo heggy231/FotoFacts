@@ -1,39 +1,57 @@
 # [FotoFacts](https://github.com/heggy231/FotoFacts)
 
-## prettier-eslint-cli
+## install prettier-eslint-cli
+
 > npm i -D prettier-eslint-cli
 
-> Add this to your package.json scripts section: prettier-eslint --write \"./**/*.js\
+- Add this script to your package.json scripts section:
+  > "pretty": "prettier-eslint --write \"\*.js\""
 
 ## How to run:
+
 - > npm i // gets your all the project dependencies listed in `package.json`
-- Create .env file on your root directory.  Add your own FACEBOOK_CLIENT_ID=*******
+- Create .env file on your root directory. \* Add your own
+
+FACEBOOK_CLIENT_ID=**\*\*\***
+FACEBOOK_SECRET=**\*\*\***
+
+GITHUB_CLIENT_ID=**\*\***
+GITHUB_CLIENT_SECRET=
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fotofacts
+DB_USER=<fill in Windows only>
+DB_PASS=<fill in Windows only>
+
+// inside of your .env file
+
+```
+FACEBOOK_CLIENT_ID=*******
 FACEBOOK_SECRET=*******
 
 GITHUB_CLIENT_ID=******
-GITHUB_CLIENT_SECRET=******
+GITHUB_CLIENT_SECRET=
 
-DATABASE_USERNAME=******
-DATABASE_PASSWORD=******
-
-DATABASE_NAME=******
-HOST=******
-
-// inside of your .env file
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fotofacts
+DB_USER=<fill in Windows only>
+DB_PASS=<fill in Windows only>
 ```
-GITHUB_CLIENT_ID=*****************
-GITHUB_CLIENT_SECRET=**************
-```
+
 <hr>
 
 ## Before you push up your changes to github please run prettier:
-> npm run pretty 
+
+> npm run pretty
 
 ### handy link:
+
 https://learn.digitalcrafts.com/flex/lessons/databases/sequelize-orm/#sequelize-and-the-sequelize-cli
 
 - to run sql in beekpeer remember to add double qoute for table name.
-> SELECT * FROM "Users";
+  > SELECT \* FROM "Users";
 
 1. Build your team, 3 members max.
 
@@ -70,11 +88,11 @@ Teila new change! hellow!! I am new
 - Heggy's note on OAuth:
 
 Facebook Setup for callback URL and ClientID, ClientSecret
-1. https://developers.facebook.com/docs/facebook-login/web/
-    A Facebook Developer Account
-    A registered Facebook App with Basic Settings configured
-    The Facebook JavaScript SDK
 
+1. https://developers.facebook.com/docs/facebook-login/web/
+   A Facebook Developer Account
+   A registered Facebook App with Basic Settings configured
+   The Facebook JavaScript SDK
 
 Problem:
 Not showing up using the folders
@@ -83,33 +101,54 @@ Not showing up using the folders
 
 <img src="https://cdn.glitch.com/cb093bfd-142f-45b3-bdb4-52ff49e0a1c2%2Fgrumpy.gif?v=1619841777278" alt="husky angry">
 
-random img url:
+### database: Sequelize ORM
+
+)not pg-promise)
+
+- https://learn.digitalcrafts.com/flex/lessons/databases/data-modeling/#likeypix-a-photo-sharing-social-media-site
+
+### random img url:
+
 https://placeimg.com/128/128/arch/sepia
 
 https://placeimg.com/128/128/animals/grayscale
 
-randome email: 
+https://placeimg.com/500/500/random
+
+randome email:
 kim@co.com
 
 name: Jo Mo
 
 example code:
-> npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
 
+> npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
 
 > npx sequelize-cli model:generate --name User --attributes eventTitle:string,attendee1Name:string,attendee2Name:string,attendee3Name:string,eventSummary:string,insertLinktoPhoto:string
 
 - form labels:
-Event Title, Attendee 1,  Attendee 2, Attendee 3, Event Summary, Insert  link to Photo
+  Event Title, Attendee 1, Attendee 2, Attendee 3, Event Summary, Insert link to Photo
 
 - feature idea:
-Attendee ID table and Photo table use join.
+  Attendee ID table and Photo table use join.
 
 User.init({
-  eventTitle: DataTypes.STRING,
-  attendee1Name: DataTypes.STRING,
-  attendee2Name: DataTypes.STRING,
-  attendee3Name: DataTypes.STRING,
-  eventSummary: DataTypes.STRING,
-  insertLinktoPhoto: DataTypes.STRING
+eventTitle: DataTypes.STRING,
+attendee1Name: DataTypes.STRING,
+attendee2Name: DataTypes.STRING,
+attendee3Name: DataTypes.STRING,
+eventSummary: DataTypes.STRING,
+insertLinktoPhoto: DataTypes.STRING
 }
+
+## ERD
+
+- [live ERD](https://app.diagrams.net/#G1kp7jivxXKaWsECSBpltwKVHOv3m3nlXI)
+
+![erd](./public/images/wireframe.png)
+
+- What this app does: (Todo: update with our photo info and respective endpoints)
+
+1. The `/profile` page displays all users in the db
+1. The `/profile/:id` route displays an individual user from the db
+1. The signup page creates a new profile.

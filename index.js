@@ -35,7 +35,7 @@ app.set("view engine", "html");
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 60000 },
 };
 app.use(session(sess));
 
@@ -51,11 +51,11 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/auth/github/callback"
+      callbackURL: "http://localhost:8080/auth/github/callback",
     },
     function(accessToken, refreshToken, profile, cb) {
       // user profile
-      console.log(JSON.stringify(profile));
+      console.log("!!!!! profile github !!! ***", JSON.stringify(profile));
 
       // ASIDE: Access Tokens are super important!! Treat them like pwd (never store in plain text)
       // You can use this to talk to Github API
@@ -116,45 +116,94 @@ app.get("/logout", (req, res) => {
 
 // Post/upload new photos Create new Photo
 app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
-  // req.body contains an Object with firstName, lastName, email
-  console.log("req.body ===******>!!!!!!", req.body);
+  // app.post("/uploadphoto", async (req, res) => {
+  // req.body contains an Object with Name, email, url
+
   const {
     eventTitle,
     attendee1Name,
     attendee2Name,
     attendee3Name,
     eventSummary,
-    insertLinktoPhoto
+    insertLinktoPhoto,
   } = req.body;
+
+  console.log("req.body ===******>!!!!!!", req.body);
   const newUser = await User.create({
     eventTitle,
     attendee1Name,
     attendee2Name,
     attendee3Name,
     eventSummary,
-    insertLinktoPhoto
+    insertLinktoPhoto,
   });
 
   // Send back the new user's ID in the response:
   res.json({
-    id: newUser.id
+    message: "new photo created success",
+    id: newUser.id,
+    eventTitle: newUser.eventTitle,
   });
+  // res.redirect('/');
 });
 
-app.get("/", ensureAuthenticated, (req, res) => {
-  const photoIds = Object.keys(data);
-  const photoArray = photoIds.map(id => data[id]);
+app.get("/sessiondata", ensureAuthenticated, (req, res) => {
+  console.log(`
+    You are on session data page req.session
+  `);
+  res.send(`
+    <h1>Session Data (from the server) req.session:</h1>
+    <pre>${JSON.stringify(req.session, null, "\t")}</pre>
+  `);
+});
 
+app.get("/kdrama", ensureAuthenticated, (req, res) => {
+  res.send(`<h1>Our super secret best kdrama list:</h1>
+    <ul>
+      <li>Autum in My Heart</li>
+      <li>Full House</li>
+      <li>Stairway to Heaven</li>
+    </ul>
+  `);
+});
+
+// list photos here
+app.get("/", ensureAuthenticated, async (req, res) => {
+  // app.get("/", async (req, res) => {
+  const users = await User.findAll();
+  // const photoArray = photoIds.map(id => data[id]);
+  /**
+ * [
+  User {
+    dataValues: {
+      id: 1,
+      eventTitle: "Teila's birthday",
+      attendee1Name: 'Heggy',
+      attendee2Name: 'Avery',
+      attendee3Name: 'Dan',
+      eventSummary: 'Best birthday party ever!',
+      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
+      createdAt: 2021-06-11T01:12:10.511Z,
+      updatedAt: 2021-06-11T01:12:10.511Z
+    },
+ */
+  console.log("!!!!!*****db data on users root:", users);
   res.render("index", {
     locals: {
       title: "🎞️ FotoFacts",
-      photoArray
+      users,
+      path: req.path,
     },
     partials: {
-      header: "header"
-    }
+      header: "header",
+    },
   });
 });
+
+// 4. Detail page here.
+// app.get("/:id", ensureAuthenticated, async (req, res) => {
+
+// });
 
 app.get("*", ensureAuthenticated, (req, res) => {
   /**
@@ -162,11 +211,11 @@ app.get("*", ensureAuthenticated, (req, res) => {
    */
   res.status(404).render("notfound", {
     locals: {
-      title: "🎞️ FotoFacts 404 Error"
+      title: "🎞️ FotoFacts 404 Error",
     },
     partials: {
-      header: "header"
-    }
+      header: "header",
+    },
   });
 });
 
