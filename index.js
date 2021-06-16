@@ -114,6 +114,38 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+// 4. Detail photo info: to retrieve a row by the id use .findByPk() (find by primary key):
+/**
+ * {
+  dataValues: {
+    id: 1,
+    eventTitle: "Teila's birthday",
+    attendee1Name: 'Heggy',
+    attendee2Name: 'Avery',
+    attendee3Name: 'Dan',
+    eventSummary: 'Best birthday party ever!',
+    insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
+    createdAt: 2021-06-11T01:12:10.511Z,
+    updatedAt: 2021-06-11T01:12:10.511Z
+  }
+ */
+// app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
+  app.get("/uploadphoto/:id", async (req, res) => {
+    console.log('!!!!req.params.id', req.params.id);
+    const oneUser = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    console.log('!!!!*******oneUser result', oneUser);
+    res.render("detail", {
+      locals: {
+        oneUser,
+        title: "🎞️ FotoFacts detail"
+      }
+    });
+  });
+
 // Post/upload new photos Create new Photo
 app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
 // app.post("/uploadphoto", async (req, res) => {
@@ -146,6 +178,8 @@ app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
   });
   // res.redirect('/');
 });
+
+
 
 app.get("/sessiondata", ensureAuthenticated, (req, res) => {
   console.log(`
@@ -200,12 +234,6 @@ app.get("/", ensureAuthenticated, async (req, res) => {
     }
   });
 });
-
-// 4. Detail page here.
-// app.get("/:id", ensureAuthenticated, async (req, res) => {
-
-// });
-
 
 app.get("*", ensureAuthenticated, (req, res) => {
   /**
