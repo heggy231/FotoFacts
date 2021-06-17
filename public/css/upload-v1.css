@@ -29,7 +29,7 @@ while the background image is loading */
 background-color: #464646;
 }
 
-nav a {  
+h1 a {  
   color: black;
   text-decoration: none; /* no underline */
 }
@@ -39,6 +39,31 @@ nav a {
   margin: auto;
 }
 
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile-name {
+  vertical-align: middle;
+  flex-grow: 1;
+  text-align: center;
+}
+
 .text-center {
   text-align: center;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.photo-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.post {
+  width: 100px;
 }

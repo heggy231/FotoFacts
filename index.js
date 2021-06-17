@@ -10,8 +10,6 @@ const { User } = require('./models');
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
-const data = require("./dataObject");
-
 const app = express();
 
 // ----------------------------------------------------------------------------
@@ -31,11 +29,11 @@ app.set("views", "templates"); // when looking for views => dir:templates folder
 app.set("view engine", "html");
 
 // order matters: session middleware before Passport OAuth
-// cookie expires after 60 sec
+// cookie expires after 6min
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 360000 }
 };
 app.use(session(sess));
 
@@ -115,6 +113,41 @@ app.get("/logout", (req, res) => {
 });
 
 // list photos here
+app.get("/photos", ensureAuthenticated, async (req, res) => {
+  // app.get("/", async (req, res) => {
+  const users = await User.findAll();
+  // const photoArray = photoIds.map(id => data[id]);
+/**
+ * [
+  User {
+    dataValues: {
+      id: 1,
+      eventTitle: "Teila's birthday",
+      attendee1Name: 'Heggy',
+      attendee2Name: 'Avery',
+      attendee3Name: 'Dan',
+      eventSummary: 'Best birthday party ever!',
+      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
+      createdAt: 2021-06-11T01:12:10.511Z,
+      updatedAt: 2021-06-11T01:12:10.511Z
+    },
+  */
+  console.log('!!!!!*****db data on users root:', users);
+  res.render("photos", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      users,
+      path: req.path
+    },
+    partials: {
+      header: "header"
+    }
+  });
+});
+
+
+
+// list photos here
 app.get("/", ensureAuthenticated, async (req, res) => {
   // app.get("/", async (req, res) => {
   const users = await User.findAll();
@@ -177,11 +210,11 @@ app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
     "id": newUser.id,
     "eventTitle": newUser.eventTitle
   });
-  // res.redirect('/');
+
 });
 
 // Delete Photo
-app.delete('/uploadphoto/:id', async (req, res) => {
+app.delete('/photos/:id', async (req, res) => {
   const { id } = req.params;
   const deletedUser = await User.destroy({
     where: {
@@ -195,7 +228,7 @@ app.delete('/uploadphoto/:id', async (req, res) => {
 });
 
 // UPDATE existing Photo
-app.post('/uploadphoto/:id', async (req, res) => {
+app.post('/photos/:id', async (req, res) => {
   const { id } = req.params;
 
   const updatedUser = await User.update(req.body, {
@@ -227,7 +260,7 @@ app.post('/uploadphoto/:id', async (req, res) => {
   }
  */
 // put route param :id last of uploadphoto order
-app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
+app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
   // app.get("/uploadphoto/:id", async (req, res) => {
   console.log('!!!!req.params.id', req.params.id);
   // error handling
