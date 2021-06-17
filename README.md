@@ -160,3 +160,26 @@ Routes for Photos (Users coming soon)
 | POST      | /uploadphoto     | photoCreate        | Create one photo. |
 | PUT/PATCH      | /photos/:id     | photoUpdate        | Update one photo. |
 
+### FotoFacts Models
+
+- User
+
+| Attribute | Example value |
+| :-------- | --------------------|
+| avatar       | https://placeimg.com/128/128/any |
+| firstName       | Junghae |
+| lastName       | Moon |
+| email       | kimchi@naver.kr |
+
+
+- Photo
+
+| Attribute | Example value |
+| :-------- | --------------------|
+| eventTitle       | Eating at Costco |
+| genre       | vacation |
+| attendee1Name       | SoJong Kim |
+| attendee2Name       | SoJong Kim |
+| attendee3Name       | SoJong Kim |
+| eventSummary       | After a long week |
+| image       | http://placeimg.com/640/480/food |
