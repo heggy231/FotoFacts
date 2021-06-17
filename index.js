@@ -10,8 +10,6 @@ const { User } = require("./models");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
-const data = require("./dataObject");
-
 const app = express();
 
 // ----------------------------------------------------------------------------
@@ -31,11 +29,11 @@ app.set("views", "templates"); // when looking for views => dir:templates folder
 app.set("view engine", "html");
 
 // order matters: session middleware before Passport OAuth
-// cookie expires after 60 sec
+// cookie expires after 6min
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 360000 },
 };
 app.use(session(sess));
 
@@ -115,11 +113,11 @@ app.get("/logout", (req, res) => {
 });
 
 // list photos here
-app.get("/", ensureAuthenticated, async (req, res) => {
+app.get("/photos", ensureAuthenticated, async (req, res) => {
   // app.get("/", async (req, res) => {
   const users = await User.findAll();
   // const photoArray = photoIds.map(id => data[id]);
-/**
+  /**
  * [
   User {
     dataValues: {
@@ -134,31 +132,58 @@ app.get("/", ensureAuthenticated, async (req, res) => {
       updatedAt: 2021-06-11T01:12:10.511Z
     },
   */
-  console.log('!!!!!*****db data on users root:', users);
+  console.log("!!!!!*****db data on users root:", users);
+  res.render("photos", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      users,
+      path: req.path,
+    },
+    partials: {
+      header: "header",
+    },
+  });
+});
+
+// list photos here
+app.get("/", ensureAuthenticated, async (req, res) => {
+  // app.get("/", async (req, res) => {
+  const users = await User.findAll();
+  // const photoArray = photoIds.map(id => data[id]);
+  /**
+ * [
+  User {
+    dataValues: {
+      id: 1,
+      eventTitle: "Teila's birthday",
+      attendee1Name: 'Heggy',
+      attendee2Name: 'Avery',
+      attendee3Name: 'Dan',
+      eventSummary: 'Best birthday party ever!',
+      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
+      createdAt: 2021-06-11T01:12:10.511Z,
+      updatedAt: 2021-06-11T01:12:10.511Z
+    },
+  */
+  console.log("!!!!!*****db data on users root:", users);
   res.render("index", {
     locals: {
       title: "🎞️ FotoFacts",
       users,
-      path: req.path
+      path: req.path,
     },
     partials: {
-      header: "header"
-    }
+      header: "header",
+    },
   });
 });
 
 // Post/upload new photos Create new Photo
 app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
   // app.post("/uploadphoto", async (req, res) => {
-<<<<<<< HEAD
   // req.body contains an Object with Name, email, url
 
   const {
-=======
-    // req.body contains an Object with Name, email, url
-  
-  const { 
->>>>>>> dev
     eventTitle,
     attendee1Name,
     attendee2Name,
@@ -183,36 +208,35 @@ app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
     id: newUser.id,
     eventTitle: newUser.eventTitle,
   });
-  // res.redirect('/');
 });
 
 // Delete Photo
-app.delete('/uploadphoto/:id', async (req, res) => {
+app.delete("/photos/:id", async (req, res) => {
   const { id } = req.params;
   const deletedUser = await User.destroy({
     where: {
-      id
-    }
+      id,
+    },
   });
   res.json({
-    "message": "Photo deleted success",
-    "deletedUser": deletedUser
+    message: "Photo deleted success",
+    deletedUser: deletedUser,
   });
 });
 
 // UPDATE existing Photo
-app.post('/uploadphoto/:id', async (req, res) => {
+app.post("/photos/:id", async (req, res) => {
   const { id } = req.params;
 
   const updatedUser = await User.update(req.body, {
     where: {
-      id
-    }
+      id,
+    },
   });
 
   res.json({
-    "message": "Update one Photo entry success",
-    "updatedUser": updatedUser
+    message: "Update one Photo entry success",
+    updatedUser: updatedUser,
   });
   // res.json(updatedUser);
 });
@@ -233,49 +257,48 @@ app.post('/uploadphoto/:id', async (req, res) => {
   }
  */
 // put route param :id last of uploadphoto order
-app.get("/uploadphoto/:id", ensureAuthenticated, async (req, res) => {
+app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
   // app.get("/uploadphoto/:id", async (req, res) => {
-  console.log('!!!!req.params.id', req.params.id);
+  console.log("!!!!req.params.id", req.params.id);
   // error handling
   try {
     const oneUser = await User.findOne({
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     });
-    console.log('!!!!*******oneUser result', oneUser);
+    console.log("!!!!*******oneUser result", oneUser);
 
     if (oneUser === null) {
       res.status(404).render("notfound", {
         locals: {
-          title: "🎞️ FotoFacts 404 Error"
+          title: "🎞️ FotoFacts 404 Error",
         },
         partials: {
-          header: "header"
-        }
+          header: "header",
+        },
       });
-      return
+      return;
     }
 
     res.render("detail", {
       locals: {
         oneUser,
-        title: "🎞️ FotoFacts detail"
+        title: "🎞️ FotoFacts detail",
       },
       partials: {
-        header: "header"
-      }
+        header: "header",
+      },
     });
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(404).render("notfound", {
       locals: {
-        title: "🎞️ FotoFacts 404 Error"
+        title: "🎞️ FotoFacts 404 Error",
       },
       partials: {
-        header: "header"
-      }
+        header: "header",
+      },
     });
   }
 });
@@ -300,47 +323,6 @@ app.get("/kdrama", ensureAuthenticated, (req, res) => {
   `);
 });
 
-<<<<<<< HEAD
-// list photos here
-app.get("/", ensureAuthenticated, async (req, res) => {
-  // app.get("/", async (req, res) => {
-  const users = await User.findAll();
-  // const photoArray = photoIds.map(id => data[id]);
-  /**
- * [
-  User {
-    dataValues: {
-      id: 1,
-      eventTitle: "Teila's birthday",
-      attendee1Name: 'Heggy',
-      attendee2Name: 'Avery',
-      attendee3Name: 'Dan',
-      eventSummary: 'Best birthday party ever!',
-      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
-      createdAt: 2021-06-11T01:12:10.511Z,
-      updatedAt: 2021-06-11T01:12:10.511Z
-    },
- */
-  console.log("!!!!!*****db data on users root:", users);
-  res.render("index", {
-    locals: {
-      title: "🎞️ FotoFacts",
-      users,
-      path: req.path,
-    },
-    partials: {
-      header: "header",
-    },
-  });
-});
-
-// 4. Detail page here.
-// app.get("/:id", ensureAuthenticated, async (req, res) => {
-
-// });
-
-=======
->>>>>>> dev
 app.get("*", ensureAuthenticated, (req, res) => {
   /**
    * catch all route redirect back home

@@ -17,15 +17,24 @@
     ${header}
     <h5 class="text-center">
       <a href="/upload-v1.html">UPLOAD PHOTO</a> ||
-      <a href="/logout">LOGOUT 👋</a>
+      <a href="/logout">LOGOUT</a>
     </h5>
-    <h5 class="text-center">
-      <a href="/photos">VIEW LIST OF PHOTOS</a>
-    </h5>
-    <hr>
-    <div class="text-center">
-      <p>Foto memories</p>
+    <h1>Photos Page</h1>
+    <div id="photos-list">
+      ${users.map(photo => `
+        <div class="photo">
+          <img src="${photo.dataValues.insertLinktoPhoto}" alt="photo.dataValues.eventTitle" class="avatar">
+          <h2 class="photo-name">
+            <a href="${path}/${photo.dataValues.id}">${photo.dataValues.eventTitle}</a>
+          </h2>
+          <button 
+          id="deletePhoto-${photo.dataValues.id}"
+          data-photoID="${photo.dataValues.id}">Delete
+          </button>
+        </div>
+        `).join('')}
     </div>
   </main>
+  <script src="/scripts/photos.js"></script>
 </body>
 </html>
