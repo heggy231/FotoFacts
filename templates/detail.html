@@ -4,14 +4,26 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- favicon -->
-  <link rel="shortcut icon" href="/images/photofav.jpeg" type="image/x-icon">
-  <!-- bootstrap -->
+  <title>${oneUser.dataValues.eventTitle} info</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-  <!-- custom css -->
-  <title>Document</title>
+  <link rel="stylesheet" href="/css/detail.css">
 </head>
 <body>
-  
+  <main class="content">
+    <h1 class="text-center">${title}</h1>
+    <div>
+      <div class="profile">
+        <img class="avatar" src="${oneUser.dataValues.insertLinktoPhoto}" alt="${oneUser.dataValues.eventTitle}">
+        <h2 class="profile-name">${oneUser.dataValues.eventTitle}</h2>
+      </div>
+      <br>
+      <h5 class="text-center">Event Description: ${oneUser.dataValues.eventSummary}
+      </h5>
+      <div>Attendee Name 1: ${oneUser.dataValues.attendee1Name}</div>
+      <div>Attendee Name 2: ${oneUser.dataValues.attendee2Name}</div>
+      <div>Attendee Name 3: ${oneUser.dataValues.attendee3Name}</div>
+      <hr>
+    </div>
+  </main>
 </body>
 </html>
