@@ -158,4 +158,5 @@ Routes for Photos (Users coming soon)
 | GET       | /photos/:id | photoFindOne          | List one photo. |
 | DELETE       | /photos/:id | photoDestroy          | Delete one photo. |
 | POST      | /uploadphoto     | photoCreate        | Create one photo. |
+| PUT/PATCH      | /photos/:id     | photoUpdate        | Update one photo. |
 
