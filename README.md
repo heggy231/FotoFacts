@@ -183,3 +183,10 @@ Routes for Photos (Users coming soon)
 | attendee3Name       | SoJong Kim |
 | eventSummary       | After a long week |
 | image       | http://placeimg.com/640/480/food |
+
+### sample code:
+* Users table:
+
+npx sequelize-cli model:generate --name User --attributes 
+firstName:string,lastName:string,email:string,avatar:string
+

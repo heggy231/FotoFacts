@@ -180,38 +180,54 @@ app.get("/", ensureAuthenticated, async (req, res) => {
   });
 });
 
-// Post/upload new photos Create new Photo
-app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
-  // app.post("/uploadphoto", async (req, res) => {
-    // req.body contains an Object with Name, email, url
-  
-  const { 
-    eventTitle,
-    attendee1Name,
-    attendee2Name,
-    attendee3Name,
-    eventSummary,
-    insertLinktoPhoto
-  } = req.body;
-
-  console.log("req.body ===******>!!!!!!", req.body);
+// Create new user
+app.post('/user', async (req, res) => {
+  // req.body contains an Object with firstName, lastName, email
+  const { firstName, lastName, email, avatar } = req.body;
   const newUser = await User.create({
-    eventTitle,
-    attendee1Name,
-    attendee2Name,
-    attendee3Name,
-    eventSummary,
-    insertLinktoPhoto
+      firstName,
+      lastName,
+      email,
+      avatar
   });
-
+  
   // Send back the new user's ID in the response:
   res.json({
-    "message": "new photo created success",
-    "id": newUser.id,
-    "eventTitle": newUser.eventTitle
+      id: newUser.id
   });
+})
 
-});
+// Post/upload new photos Create new Photo
+// app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
+//   // app.post("/uploadphoto", async (req, res) => {
+//     // req.body contains an Object with Name, email, url
+  
+//   const { 
+//     eventTitle,
+//     attendee1Name,
+//     attendee2Name,
+//     attendee3Name,
+//     eventSummary,
+//     insertLinktoPhoto
+//   } = req.body;
+
+//   console.log("req.body ===******>!!!!!!", req.body);
+//   const newUser = await User.create({
+//     eventTitle,
+//     attendee1Name,
+//     attendee2Name,
+//     attendee3Name,
+//     eventSummary,
+//     insertLinktoPhoto
+//   });
+
+//   // Send back the new user's ID in the response:
+//   res.json({
+//     "message": "new photo created success",
+//     "id": newUser.id,
+//     "eventTitle": newUser.eventTitle
+//   });
+// });
 
 // Delete Photo
 app.delete('/photos/:id', async (req, res) => {
