@@ -241,6 +241,7 @@ app.post("/photos/:id", async (req, res) => {
   // res.json(updatedUser);
 });
 
+app.put("photos/:id", async);
 // GET all Detail photo info: to retrieve a row by the id
 /**
  * {
