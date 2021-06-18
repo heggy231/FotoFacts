@@ -106,6 +106,19 @@ app.get(
   }
 );
 
+// FotoFacts home page
+app.get("/", ensureAuthenticated, async (req, res) => {
+  res.render("index", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      path: req.path
+    },
+    partials: {
+      header: "header"
+    }
+  });
+});
+
 // logs you out then redirect to root index.html list of photos
 app.get("/logout", (req, res) => {
   req.logout();
@@ -134,19 +147,6 @@ app.get("/users", ensureAuthenticated, async (req, res) => {
     locals: {
       title: "🎞️ Users Page",
       usersArray,
-      path: req.path
-    },
-    partials: {
-      header: "header"
-    }
-  });
-});
-
-// FotoFacts home page
-app.get("/", ensureAuthenticated, async (req, res) => {
-  res.render("index", {
-    locals: {
-      title: "🎞️ FotoFacts",
       path: req.path
     },
     partials: {
@@ -334,7 +334,6 @@ app.get("/users/:id", ensureAuthenticated, async (req, res) => {
 //     <pre>${JSON.stringify(req.session, null, "\t")}</pre>
 //   `);
 // });
-
 
 app.get("*", (req, res) => {
   /**
