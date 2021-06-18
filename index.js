@@ -113,7 +113,7 @@ app.get("/logout", (req, res) => {
 });
 
 // list photos here
-app.get("/users", async (req, res) => {
+app.get("/users", ensureAuthenticated, async (req, res) => {
   const usersArray = await User.findAll();
 /**
  * users = [
@@ -237,66 +237,64 @@ app.post('/users', async (req, res) => {
 
 // GET all Detail photo info: to retrieve a row by the id
 /**
- * {
-  dataValues: {
-    id: 1,
-    eventTitle: "Teila's birthday",
-    attendee1Name: 'Heggy',
-    attendee2Name: 'Avery',
-    attendee3Name: 'Dan',
-    eventSummary: 'Best birthday party ever!',
-    insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
-    createdAt: 2021-06-11T01:12:10.511Z,
-    updatedAt: 2021-06-11T01:12:10.511Z
-  }
+ * User {
+    dataValues: {
+      id: 5,
+      firstName: 'Korean',
+      lastName: 'Power',
+      email: 'kp@naver.kr',
+      avatar: 'https://placeimg.com/128/128/arch/sepia',
+      createdAt: 2021-06-18T07:31:16.270Z,
+      updatedAt: 2021-06-18T07:31:16.270Z
+    }
  */
-// put route param :id last of uploadphoto order
-// app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
-  // app.get("/uploadphoto/:id", async (req, res) => {
-  // console.log('!!!!req.params.id', req.params.id);
+// ORDER MATTERS!!! *** put this route param :id very last on index.js among /users/ routes
+app.get("/users/:id", ensureAuthenticated, async (req, res) => {
+  console.log('!!!!*******req.params.id', req.params.id);
   // error handling
-//   try {
-//     const oneUser = await User.findOne({
-//       where: {
-//         id: req.params.id
-//       }
-//     });
-//     console.log('!!!!*******oneUser result', oneUser);
+  try {
+    // const oneUser = await User.findOne({
+    //   where: {
+    //     id: req.params.id
+    //   }
+    // });
+    const oneUser = await User.findByPk(req.params.id);
+    console.log('!!!!*******oneUser result', oneUser);
 
-//     if (oneUser === null) {
-//       res.status(404).render("notfound", {
-//         locals: {
-//           title: "🎞️ FotoFacts 404 Error"
-//         },
-//         partials: {
-//           header: "header"
-//         }
-//       });
-//       return
-//     }
+    if (oneUser === null) {
+      res.status(404).render("notfound", {
+        locals: {
+          title: "🎞️ FotoFacts 404 Error"
+        },
+        partials: {
+          header: "header"
+        }
+      });
+      return
+    }
 
-//     res.render("detail", {
-//       locals: {
-//         oneUser,
-//         title: "🎞️ FotoFacts detail"
-//       },
-//       partials: {
-//         header: "header"
-//       }
-//     });
-//   }
-//   catch (error) {
-//     console.log(error);
-//     res.status(404).render("notfound", {
-//       locals: {
-//         title: "🎞️ FotoFacts 404 Error"
-//       },
-//       partials: {
-//         header: "header"
-//       }
-//     });
-//   }
-// });
+    res.render("detail", {
+      locals: {
+        oneUser,
+        title: "🎞️ User Detail"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+  }
+});
 
 // app.get("/sessiondata", ensureAuthenticated, (req, res) => {
 //   console.log(`
