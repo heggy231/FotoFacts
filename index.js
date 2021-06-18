@@ -145,7 +145,13 @@ app.get("/photos", ensureAuthenticated, async (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // list photos here
+=======
+
+
+// FotoFacts home page
+>>>>>>> dev
 app.get("/", ensureAuthenticated, async (req, res) => {
   // app.get("/", async (req, res) => {
   const users = await User.findAll();
@@ -314,15 +320,15 @@ app.get("/sessiondata", ensureAuthenticated, (req, res) => {
   `);
 });
 
-app.get("/kdrama", ensureAuthenticated, (req, res) => {
-  res.send(`<h1>Our super secret best kdrama list:</h1>
-    <ul>
-      <li>Autum in My Heart</li>
-      <li>Full House</li>
-      <li>Stairway to Heaven</li>
-    </ul>
-  `);
-});
+// app.get("/kdrama", ensureAuthenticated, (req, res) => {
+//   res.send(`<h1>Our super secret best kdrama list:</h1>
+//     <ul>
+//       <li>Autum in My Heart</li>
+//       <li>Full House</li>
+//       <li>Stairway to Heaven</li>
+//     </ul>
+//   `);
+// });
 
 app.get("*", ensureAuthenticated, (req, res) => {
   /**
