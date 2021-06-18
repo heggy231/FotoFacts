@@ -8,22 +8,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      eventTitle: {
+      firstName: {
         type: Sequelize.STRING
       },
-      attendee1Name: {
+      lastName: {
         type: Sequelize.STRING
       },
-      attendee2Name: {
+      email: {
         type: Sequelize.STRING
       },
-      attendee3Name: {
-        type: Sequelize.STRING
-      },
-      eventSummary: {
-        type: Sequelize.STRING
-      },
-      insertLinktoPhoto: {
+      avatar: {
         type: Sequelize.STRING
       },
       createdAt: {
