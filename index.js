@@ -6,7 +6,7 @@ const es6Renderer = require("express-es6-template-engine");
 const { v4: uuidv4 } = require("uuid");
 const session = require("express-session");
 const Sequelize = require('sequelize');
-const { User } = require('./models');
+const { User, Photo } = require('./models');
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
@@ -125,7 +125,7 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-// list photos here
+// list Users here
 app.get("/users", ensureAuthenticated, async (req, res) => {
   const usersArray = await User.findAll();
 /**
@@ -172,37 +172,65 @@ app.post('/users', async (req, res) => {
   });
 });
 
-// Post/upload new photos Create new Photo
-// app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
-//   // app.post("/uploadphoto", async (req, res) => {
-//     // req.body contains an Object with Name, email, url
-  
-//   const { 
-//     eventTitle,
-//     attendee1Name,
-//     attendee2Name,
-//     attendee3Name,
-//     eventSummary,
-//     insertLinktoPhoto
-//   } = req.body;
+// ensureAuthenticated
+app.get('/users/photos', async (req, res) => {
+  const usersArray = await User.findAll({
+    include: [{
+      model: Photo
+    }]
+  });
+  console.log('!!!!!*****db usersArray original form:', usersArray);
+  res.render("usersWithPhotos", {
+    locals: {
+      usersArray,
+      title: "User with Photos"
+    },
+    partials: {
+      header: "header"
+    }
+  });
+  // res.send(usersArray);
+});
 
-//   console.log("req.body ===******>!!!!!!", req.body);
-//   const newUser = await User.create({
-//     eventTitle,
-//     attendee1Name,
-//     attendee2Name,
-//     attendee3Name,
-//     eventSummary,
-//     insertLinktoPhoto
-//   });
+// Post/upload new photos Create new Photo ensureAuthenticated
+app.post("/uploadphoto", async (req, res) => {
+  // req.body contains an Object with Name, email, url
+  const { 
+    title,
+    category,
+    attendee1FirstName,
+    attendee1LastName,
+    attendee2FirstName,
+    attendee2LastName,
+    attendee3FirstName,
+    attendee3LastName,
+    description,
+    url,
+    userId
+  } = req.body;
 
-//   // Send back the new user's ID in the response:
-//   res.json({
-//     "message": "new photo created success",
-//     "id": newUser.id,
-//     "eventTitle": newUser.eventTitle
-//   });
-// });
+  console.log("req.body ===******>!!!!!!", req.body);
+  const newPhoto = await Photo.create({
+    title,
+    category,
+    attendee1FirstName,
+    attendee1LastName,
+    attendee2FirstName,
+    attendee2LastName,
+    attendee3FirstName,
+    attendee3LastName,
+    description,
+    url,
+    userId
+  });
+
+  // Send back the new user's ID in the response:
+  res.json({
+    "message": "new photo created success",
+    "id": newPhoto.id,
+    "eventTitle": newPhoto.title
+  });
+});
 
 // Delete Photo
 app.delete('/users/:id', async (req, res) => {

@@ -15,23 +15,31 @@
 <body>
   <main class="content">
     ${header}
+    <h2 class="text-center">${title}</h2>
     <h5 class="text-center">
-      <a href="/signup.html">SIGNUP</a> ||
-      <a href="/upload-v1.html">UPLOAD PHOTO</a>
+      <a href="/upload-v1.html">UPLOAD PHOTO</a> ||
+      <a href="/logout">LOGOUT</a>
     </h5>
-    <h5 class="text-center">
-      <a href="/logout">LOGOUT 👋</a>
-    </h5>
-    <h5 class="text-center">
-      <a href="/users">VIEW LIST OF USERS 🦸🏽‍♂️🦸🏻‍♂️</a>
-    </h5>
-    <h5 class="text-center">
-      <a href="/photos">VIEW LIST OF PHOTOS</a>
-    </h5>
-    <hr>
-    <div class="text-center">
-      <p>Foto memories</p>
+    <div id="users-list">
+      ${
+        usersArray.map(user => `
+          <div class="profile">
+            <h2 class="profile-name">${user.firstName} ${user.lastName}</h2>
+          </div>
+        `).join("")
+      }
+
+      ${
+        usersArray.map(user => {
+          if (user.Photos && user.Photos.length > 0) {
+            return user.Photos.map(photo => `
+              <img src="${photo.url}">
+            `).join("")
+          }
+        })
+      }
     </div>
   </main>
+
 </body>
 </html>
