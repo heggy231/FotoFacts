@@ -205,35 +205,64 @@ app.post('/users', async (req, res) => {
 // });
 
 // Delete Photo
-// app.delete('/photos/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const deletedUser = await User.destroy({
-//     where: {
-//       id
-//     }
-//   });
-//   res.json({
-//     "message": "Photo deleted success",
-//     "deletedUser": deletedUser
-//   });
-// });
+app.delete('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const deletedUser = await User.destroy({
+    where: {
+      id
+    }
+  });
+
+  console.log('!!!!! ******* deletedUser', deletedUser); // => if no user found -> 0
+
+  if (deletedUser === 0) {
+    // if no user id is found
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+    return
+  }
+
+  res.json({
+    "message": "User deleted success",
+    "deletedUser": deletedUser
+  });
+});
 
 // UPDATE existing Photo
-// app.post('/photos/:id', async (req, res) => {
-//   const { id } = req.params;
+app.post('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const updatedUser = await User.update(req.body, {
+    where: {
+      id
+    }
+  });
 
-//   const updatedUser = await User.update(req.body, {
-//     where: {
-//       id
-//     }
-//   });
+  console.log('!!!!! ******* User to update', updatedUser); // => if no user found -> [0]
 
-//   res.json({
-//     "message": "Update one Photo entry success",
-//     "updatedUser": updatedUser
-//   });
-  // res.json(updatedUser);
-// });
+  if (updatedUser[0] === 0) {
+    // if no user id is found
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+    return
+  }
+
+  res.json({
+    "message": "Update one user entry success",
+    "updatedUser": updatedUser
+  });
+});
 
 // GET all Detail photo info: to retrieve a row by the id
 /**
