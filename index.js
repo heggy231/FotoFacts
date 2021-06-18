@@ -113,30 +113,27 @@ app.get("/logout", (req, res) => {
 });
 
 // list photos here
-app.get("/photos", ensureAuthenticated, async (req, res) => {
-  // app.get("/", async (req, res) => {
-  const users = await User.findAll();
-  // const photoArray = photoIds.map(id => data[id]);
+app.get("/users", async (req, res) => {
+  const usersArray = await User.findAll();
 /**
- * [
-  User {
-    dataValues: {
-      id: 1,
-      eventTitle: "Teila's birthday",
-      attendee1Name: 'Heggy',
-      attendee2Name: 'Avery',
-      attendee3Name: 'Dan',
-      eventSummary: 'Best birthday party ever!',
-      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
-      createdAt: 2021-06-11T01:12:10.511Z,
-      updatedAt: 2021-06-11T01:12:10.511Z
-    },
-  */
-  console.log('!!!!!*****db data on users root:', users);
-  res.render("photos", {
+ * users = [
+    User {
+            dataValues: {
+              id: 1,
+              firstName: 'Teila',
+              lastName: 'Kim',
+              email: 'tk@nasa.gov',
+              avatar: 'https://placeimg.com/128/128/any',
+              createdAt: 2021-06-18T02:27:57.777Z,
+              updatedAt: 2021-06-18T02:27:57.777Z
+         }, {}, {} ]
+ */
+  console.log('!!!!!*****db usersArray original form:', usersArray);
+
+  res.render("users", {
     locals: {
-      title: "🎞️ FotoFacts",
-      users,
+      title: "🎞️ Users Page",
+      usersArray,
       path: req.path
     },
     partials: {
@@ -145,33 +142,11 @@ app.get("/photos", ensureAuthenticated, async (req, res) => {
   });
 });
 
-
-
 // FotoFacts home page
 app.get("/", ensureAuthenticated, async (req, res) => {
-  // app.get("/", async (req, res) => {
-  const users = await User.findAll();
-  // const photoArray = photoIds.map(id => data[id]);
-/**
- * [
-  User {
-    dataValues: {
-      id: 1,
-      eventTitle: "Teila's birthday",
-      attendee1Name: 'Heggy',
-      attendee2Name: 'Avery',
-      attendee3Name: 'Dan',
-      eventSummary: 'Best birthday party ever!',
-      insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
-      createdAt: 2021-06-11T01:12:10.511Z,
-      updatedAt: 2021-06-11T01:12:10.511Z
-    },
-  */
-  console.log('!!!!!*****db data on users root:', users);
   res.render("index", {
     locals: {
       title: "🎞️ FotoFacts",
-      users,
       path: req.path
     },
     partials: {
@@ -181,7 +156,7 @@ app.get("/", ensureAuthenticated, async (req, res) => {
 });
 
 // Create new user
-app.post('/user', async (req, res) => {
+app.post('/users', async (req, res) => {
   // req.body contains an Object with firstName, lastName, email
   const { firstName, lastName, email, avatar } = req.body;
   const newUser = await User.create({
@@ -195,7 +170,7 @@ app.post('/user', async (req, res) => {
   res.json({
       id: newUser.id
   });
-})
+});
 
 // Post/upload new photos Create new Photo
 // app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
@@ -230,35 +205,35 @@ app.post('/user', async (req, res) => {
 // });
 
 // Delete Photo
-app.delete('/photos/:id', async (req, res) => {
-  const { id } = req.params;
-  const deletedUser = await User.destroy({
-    where: {
-      id
-    }
-  });
-  res.json({
-    "message": "Photo deleted success",
-    "deletedUser": deletedUser
-  });
-});
+// app.delete('/photos/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const deletedUser = await User.destroy({
+//     where: {
+//       id
+//     }
+//   });
+//   res.json({
+//     "message": "Photo deleted success",
+//     "deletedUser": deletedUser
+//   });
+// });
 
 // UPDATE existing Photo
-app.post('/photos/:id', async (req, res) => {
-  const { id } = req.params;
+// app.post('/photos/:id', async (req, res) => {
+//   const { id } = req.params;
 
-  const updatedUser = await User.update(req.body, {
-    where: {
-      id
-    }
-  });
+//   const updatedUser = await User.update(req.body, {
+//     where: {
+//       id
+//     }
+//   });
 
-  res.json({
-    "message": "Update one Photo entry success",
-    "updatedUser": updatedUser
-  });
+//   res.json({
+//     "message": "Update one Photo entry success",
+//     "updatedUser": updatedUser
+//   });
   // res.json(updatedUser);
-});
+// });
 
 // GET all Detail photo info: to retrieve a row by the id
 /**
@@ -276,74 +251,65 @@ app.post('/photos/:id', async (req, res) => {
   }
  */
 // put route param :id last of uploadphoto order
-app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
+// app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
   // app.get("/uploadphoto/:id", async (req, res) => {
-  console.log('!!!!req.params.id', req.params.id);
+  // console.log('!!!!req.params.id', req.params.id);
   // error handling
-  try {
-    const oneUser = await User.findOne({
-      where: {
-        id: req.params.id
-      }
-    });
-    console.log('!!!!*******oneUser result', oneUser);
+//   try {
+//     const oneUser = await User.findOne({
+//       where: {
+//         id: req.params.id
+//       }
+//     });
+//     console.log('!!!!*******oneUser result', oneUser);
 
-    if (oneUser === null) {
-      res.status(404).render("notfound", {
-        locals: {
-          title: "🎞️ FotoFacts 404 Error"
-        },
-        partials: {
-          header: "header"
-        }
-      });
-      return
-    }
+//     if (oneUser === null) {
+//       res.status(404).render("notfound", {
+//         locals: {
+//           title: "🎞️ FotoFacts 404 Error"
+//         },
+//         partials: {
+//           header: "header"
+//         }
+//       });
+//       return
+//     }
 
-    res.render("detail", {
-      locals: {
-        oneUser,
-        title: "🎞️ FotoFacts detail"
-      },
-      partials: {
-        header: "header"
-      }
-    });
-  }
-  catch (error) {
-    console.log(error);
-    res.status(404).render("notfound", {
-      locals: {
-        title: "🎞️ FotoFacts 404 Error"
-      },
-      partials: {
-        header: "header"
-      }
-    });
-  }
-});
+//     res.render("detail", {
+//       locals: {
+//         oneUser,
+//         title: "🎞️ FotoFacts detail"
+//       },
+//       partials: {
+//         header: "header"
+//       }
+//     });
+//   }
+//   catch (error) {
+//     console.log(error);
+//     res.status(404).render("notfound", {
+//       locals: {
+//         title: "🎞️ FotoFacts 404 Error"
+//       },
+//       partials: {
+//         header: "header"
+//       }
+//     });
+//   }
+// });
 
-app.get("/sessiondata", ensureAuthenticated, (req, res) => {
-  console.log(`
-    You are on session data page req.session
-  `);
-  res.send(`
-    <h1>Session Data (from the server) req.session:</h1>
-    <pre>${JSON.stringify(req.session, null, "\t")}</pre>
-  `);
-});
-
-// app.get("/kdrama", ensureAuthenticated, (req, res) => {
-//   res.send(`<h1>Our super secret best kdrama list:</h1>
-//     <ul>
-//       <li>Autum in My Heart</li>
-//       <li>Full House</li>
-//       <li>Stairway to Heaven</li>
-//     </ul>
+// app.get("/sessiondata", ensureAuthenticated, (req, res) => {
+//   console.log(`
+//     You are on session data page req.session
+//   `);
+//   res.send(`
+//     <h1>Session Data (from the server) req.session:</h1>
+//     <pre>${JSON.stringify(req.session, null, "\t")}</pre>
 //   `);
 // });
 
-app.get("*", ensureAuthenticated, (req, res) => {
+
+app.get("*", (req, res) => {
   /**
    * catch all route redirect back home
    */

@@ -35,20 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "Content-Type": "application/json",
   },
   body: JSON.stringify(data), // body data type must match "Content-Type" header
-  })
-  .then((response) => {
-    // response variable check 300 code redirect
-    // code 200
-    // IF the RESPONSE STATUS is OK (200), THEN change the browser location.
-    // https://stackoverflow.com/questions/39735496/redirect-after-a-fetch-post-call
-    // alert("photo listed!!!");
-
-    // window.location.href = "/photos";
-    renderModal();
-
-  })
-  .catch((err) => {
-    console.info(err + " url: " + "/uploadphoto");
   });
 
   console.log("POSTed data to /upload");

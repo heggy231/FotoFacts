@@ -89,6 +89,29 @@
         </form>
       </div>
     </div>
-    <script src="/scripts/upload.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("signup");
+
+        form.onsubmit = (e)=> {
+            e.preventDefault();
+            
+            const formdata = new FormData(e.target);
+            const entries = formdata.entries(); // iterator key value
+            const data = Object.fromEntries(entries); // transform a list of key-value pairs into an obj. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries
+
+              // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+            fetch("/profile", {
+                "method": "POST",
+                "headers": {
+                    'Content-Type': 'application/json'
+                },
+                "body": JSON.stringify(data) // body data type must match "Content-Type" header
+            })
+
+            console.log("POSTed data to /signup")
+        }
+      });
+    </script>
   </body>
 </html>
