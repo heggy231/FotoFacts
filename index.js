@@ -173,23 +173,23 @@ app.post('/users', async (req, res) => {
 });
 
 // ensureAuthenticated
-app.get('/users/photos', async (req, res) => {
+app.get('/users/photos', ensureAuthenticated, async (req, res) => {
   const usersArray = await User.findAll({
     include: [{
       model: Photo
     }]
   });
   console.log('!!!!!*****db usersArray original form:', usersArray);
-  res.render("usersWithPhotos", {
-    locals: {
-      usersArray,
-      title: "User with Photos"
-    },
-    partials: {
-      header: "header"
-    }
-  });
-  // res.send(usersArray);
+  // res.render("usersWithPhotos", {
+  //   locals: {
+  //     usersArray,
+  //     title: "User with Photos"
+  //   },
+  //   partials: {
+  //     header: "header"
+  //   }
+  // });
+  res.send(usersArray);
 });
 
 // Post/upload new photos Create new Photo ensureAuthenticated

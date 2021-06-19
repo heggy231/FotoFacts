@@ -197,13 +197,5 @@ firstName:string,lastName:string,email:string,avatar:string
 
 npx sequelize-cli model:generate --name Photo --attributes title:string,category:string,attendee1FirstName:string,attendee1LastName:string,attendee2FirstName:string,attendee2LastName:string,attendee3FirstName:string,attendee3LastName:string,description:string,url:string,userId:integer
 
-
-      <!-- ${
-        usersArray.map(user => {
-          return user.photos.map(photo => { 
-            return `
-            <img src="${photo.url}">
-            `
-          })
-        }).join("")
-      } -->
+- update alert box
+https://getbootstrap.com/docs/4.0/components/alerts/

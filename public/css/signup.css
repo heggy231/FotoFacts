@@ -67,3 +67,21 @@ h1 a {
 .post {
   width: 100px;
 }
+
+/* modal */
+body {
+  position: relative;
+}
+
+.alert-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.close {
+  padding-left: 32px;
+}
+/* end of modal styling */
