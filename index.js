@@ -232,7 +232,7 @@ app.post("/uploadphoto", async (req, res) => {
   });
 });
 
-// Delete Photo
+// Delete User
 app.delete('/users/:id', async (req, res) => {
   const { id } = req.params;
   const deletedUser = await User.destroy({

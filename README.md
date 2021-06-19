@@ -199,3 +199,33 @@ npx sequelize-cli model:generate --name Photo --attributes title:string,category
 
 - update alert box
 https://getbootstrap.com/docs/4.0/components/alerts/
+
+
+```js
+<div id="users-list">
+  ${
+    usersArray.map(user => `
+      <div class="profile">
+        <h2 class="profile-name">${user.firstName} ${user.lastName}</h2>
+      </div>
+      ${
+        if(user.Photos && user.Photos.length > 0){
+          user.Photos.map(photo =>
+            `<img src="${photo.url}">`
+          ).join("")
+        }
+      }
+    `).join("")
+  }
+
+  ${
+    usersArray.map(user => {
+      if (user.Photos && user.Photos.length > 0) {
+        return user.Photos.map(photo => `
+          <img src="${photo.url}">
+        `).join("")
+      }
+    })
+  }
+</div>
+```

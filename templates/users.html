@@ -23,11 +23,11 @@
     <div id="users-list">
       ${usersArray.map(user => `
         <div class="profile">
-          <img src="${user.dataValues.avatar}" alt="user.dataValues.firstName" class="avatar">
+          <img src="${user.dataValues.avatar}" alt="user.dataValues.firstName" class="avatar img-thumbnail">
           <h2 class="profile-name">
             <a href="${path}/${user.dataValues.id}">${user.dataValues.firstName} ${user.dataValues.lastName}</a>
           </h2>
-          <button 
+          <button type="button" class="btn btn-primary"
           id="deleteUser-${user.dataValues.id}"
           data-userID="${user.dataValues.id}">Delete
           </button>
@@ -35,6 +35,6 @@
         `).join('')}
     </div>
   </main>
-  <!-- <script src="/scripts/photos.js"></script> -->
+  <script src="/scripts/users.js"></script>
 </body>
 </html>
