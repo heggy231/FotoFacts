@@ -4,7 +4,7 @@ var userArray = [
       "firstName": "Katie",
       "lastName": "Do",
       "email": "skt@nasa.gov",
-      "avatar": "https://placeimg.com/128/128/any",
+      "avatarURL": "https://placeimg.com/128/128/any",
       "createdAt": "2021-06-18T02:27:57.784Z",
       "updatedAt": "2021-06-18T02:27:57.784Z",
       "Photos": [
@@ -47,7 +47,7 @@ var userArray = [
       "firstName": "Katie",
       "lastName": "Shim",
       "email": "ks@co.com",
-      "avatar": "https://placeimg.com/128/128/any",
+      "avatarURL": "https://placeimg.com/128/128/any",
       "createdAt": "2021-06-18T02:58:27.526Z",
       "updatedAt": "2021-06-18T02:58:27.526Z",
       "Photos": []
@@ -57,7 +57,7 @@ var userArray = [
       "firstName": "Korean",
       "lastName": "Power",
       "email": "kp@naver.kr",
-      "avatar": "https://placeimg.com/128/128/arch/sepia",
+      "avatarURL": "https://placeimg.com/128/128/arch/sepia",
       "createdAt": "2021-06-18T07:31:16.270Z",
       "updatedAt": "2021-06-18T07:31:16.270Z",
       "Photos": []
@@ -67,7 +67,7 @@ var userArray = [
       "firstName": "Katie",
       "lastName": "Shim",
       "email": "ks@co.com",
-      "avatar": "https://placeimg.com/128/128/any",
+      "avatarURL": "https://placeimg.com/128/128/any",
       "createdAt": "2021-06-17T02:27:57.784Z",
       "updatedAt": "2021-06-18T08:59:51.460Z",
       "Photos": [
@@ -94,7 +94,7 @@ var userArray = [
       "firstName": "Teila",
       "lastName": "Kim",
       "email": "tk@nasa.gov",
-      "avatar": "https://placeimg.com/128/128/any",
+      "avatarURL": "https://placeimg.com/128/128/any",
       "createdAt": "2021-06-18T09:51:05.761Z",
       "updatedAt": "2021-06-18T09:51:05.761Z",
       "Photos": []
@@ -104,7 +104,7 @@ var userArray = [
       "firstName": "Katie",
       "lastName": "Do",
       "email": "skt@nasa.gov",
-      "avatar": "https://placeimg.com/128/128/any",
+      "avatarURL": "https://placeimg.com/128/128/any",
       "createdAt": "2021-06-18T09:51:05.768Z",
       "updatedAt": "2021-06-18T09:51:05.768Z",
       "Photos": []

@@ -166,7 +166,7 @@ Routes for Photos (Users coming soon)
 
 | Attribute | Example value |
 | :-------- | --------------------|
-| avatar       | https://placeimg.com/128/128/any |
+| avatarURL       | https://placeimg.com/128/128/any |
 | firstName       | Junghae |
 | lastName       | Moon |
 | email       | kimchi@naver.kr |
@@ -190,8 +190,7 @@ Routes for Photos (Users coming soon)
 ### sample code:
 * Users Model:
 
-npx sequelize-cli model:generate --name User --attributes 
-firstName:string,lastName:string,email:string,avatar:string
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string,avatarURL:string,loginStrategy:string,loginStrategyId:string,username:string
 
 * Photo Model:
 

@@ -23,7 +23,7 @@
     <div id="users-list">
       ${usersArray.map(user => `
         <div class="profile">
-          <img src="${user.dataValues.avatar}" alt="user.dataValues.firstName" class="avatar img-thumbnail">
+          <img src="${user.dataValues.avatarURL}" alt="user.dataValues.firstName" class="avatar img-thumbnail">
           <h2 class="profile-name">
             <a href="${path}/${user.dataValues.id}">${user.dataValues.firstName} ${user.dataValues.lastName}</a>
           </h2>

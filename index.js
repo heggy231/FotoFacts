@@ -49,7 +49,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/auth/github/callback"
+      callbackURL: "http://localhost:1111/auth/github/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
       // user profile
@@ -136,7 +136,7 @@ app.get("/users", ensureAuthenticated, async (req, res) => {
               firstName: 'Teila',
               lastName: 'Kim',
               email: 'tk@nasa.gov',
-              avatar: 'https://placeimg.com/128/128/any',
+              avatarURL: 'https://placeimg.com/128/128/any',
               createdAt: 2021-06-18T02:27:57.777Z,
               updatedAt: 2021-06-18T02:27:57.777Z
          }, {}, {} ]
@@ -158,12 +158,12 @@ app.get("/users", ensureAuthenticated, async (req, res) => {
 // Create new user
 app.post('/users', async (req, res) => {
   // req.body contains an Object with firstName, lastName, email
-  const { firstName, lastName, email, avatar } = req.body;
+  const { firstName, lastName, email, avatarURL } = req.body;
   const newUser = await User.create({
       firstName,
       lastName,
       email,
-      avatar
+      avatarURL
   });
   
   // Send back the new user's ID in the response:
@@ -300,7 +300,7 @@ app.post('/users/:id', async (req, res) => {
       firstName: 'Korean',
       lastName: 'Power',
       email: 'kp@naver.kr',
-      avatar: 'https://placeimg.com/128/128/arch/sepia',
+      avatarURL: 'https://placeimg.com/128/128/arch/sepia',
       createdAt: 2021-06-18T07:31:16.270Z,
       updatedAt: 2021-06-18T07:31:16.270Z
     }
@@ -377,6 +377,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen("8080", () => {
-  console.log("running on port http://localhost:8080");
+app.listen("1111", () => {
+  console.log("running on port http://localhost:1111");
 });
