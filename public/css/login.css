@@ -29,9 +29,12 @@ while the background image is loading */
 background-color: #464646;
 }
 
-nav a {  
-  color: black;
-  text-decoration: none; /* no underline */
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2em;
 }
 
 .content {
@@ -41,4 +44,20 @@ nav a {
 
 .text-center {
   text-align: center;
+}
+
+.login-card {
+  width: 400px;
+  padding: 20px;
+}
+
+.login-button {
+  font-size: 24px;
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+}
+
+.link {
+  text-decoration: none;
 }

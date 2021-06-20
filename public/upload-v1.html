@@ -1,137 +1,95 @@
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- favicon -->
-    <link rel="shortcut icon" href="/images/photofav.jpeg" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/images/photofav.jpeg"
+      type="image/x-icon"
+    />
     <!-- bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <!-- custom css -->
-    <style>
-        .content {
-            width: 400px;
-            margin: auto;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .profile-name {
-            vertical-align: middle;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .avatar {
-            border-radius: 50%;
-        }
-
-        .photo-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-
-        .post {
-            width: 100px;
-        }
-    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/upload-v1.css">
     <title>FotoFacts</title>
   </head>
-    <body>
-        <div class="content">
-            <h1 class="text-center">🎞️ FotoFacts</h1>
-            <h3 class="text-center">UPLOAD PAGE</h3>
-            <div>
-                <form id="upload">
-                    <div class="mb-3">
-                      <label for="eventTitle" class="form-label">Event Title</label>
-                      <input type="text" class="form-control" id="eventTitle" name="eventTitle" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="attendee1Name" class="form-label">Attendee1 Name</label>
-                        <input type="text" class="form-control" id="attendee1Name" name="attendee1Name"/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="attendee2Name" class="form-label">Attendee2 Name</label>
-                        <input type="text" class="form-control" id="attendee2Name" name="attendee2Name"/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="attendee3Name" class="form-label">Attendee3 Name</label>
-                        <input type="text" class="form-control" id="attendee3Name" name="attendee3Name"/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="eventSummary" class="form-label">Event Summary</label>
-                        <input type="text" class="form-control" id="eventSummary" name="eventSummary" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="insertLinktoPhoto" class="form-label">Photo Link</label>
-                        <input type="text" class="form-control" id="ainsertLinktoPhoto" name="insertLinktoPhoto" required />
-                    </div>                    
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-        <!-- <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              const form = document.getElementById("upload");
-        
-              form.onsubmit = (e)=> {
-                e.preventDefault();
-                
-                const formdata = new FormData(e.target);
-                const entries = formdata.entries();
-                const data = Object.fromEntries(entries);
-        
-                // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-                fetch("/uploadphoto", {
-                  "method": "POST",
-                  "headers": {
-                    'Content-Type': 'application/json'
-                  },
-                  "body": JSON.stringify(data) // body data type must match "Content-Type" header
-                })
-                console.log("POSTed data to /")
-              }
-            })
-          </script> -->
-        <script>
-            // wait for page ready
-            document.addEventListener("DOMContentLoaded", () => {
-                const form = document.getElementById("upload");
-
-                form.onsubmit = (e)=> {
-                    e.preventDefault();
-                    
-                    const formdata = new FormData(e.target);
-                    const entries = formdata.entries();
-                    const data = Object.fromEntries(entries);
-
-                    // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-                    fetch("/uploadphoto", {
-                        "method": "POST",
-                        "headers": {
-                            'Content-Type': 'application/json'
-                        },
-                        "body": JSON.stringify(data) // body data type must match "Content-Type" header
-                    }).then(response => {
-                        // response variable check 300 code redirect
-                        // code 200
-                        window.location.href = "/";
-                    }).catch(err => {
-                        console.info(err + " url: " + "/uploadphoto");
-                    });
-
-                    console.log("POSTed data to /upload");
-                }
-            })
-        </script>
-    </body>
+  <body>
+    <div class="content">
+      <h1 class="text-center">
+        <a href="/">🎞️ FotoFacts</a>
+      </h1>
+      <div id="message"></div>
+      <h3 class="text-center">UPLOAD PAGE</h3>
+      <div>
+        <form id="upload">
+          <div class="mb-3">
+            <label for="eventTitle" class="form-label">Event Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="eventTitle"
+              name="eventTitle"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee1Name" class="form-label">Attendee1 Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee1Name"
+              name="attendee1Name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee2Name" class="form-label">Attendee2 Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee2Name"
+              name="attendee2Name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee3Name" class="form-label">Attendee3 Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee3Name"
+              name="attendee3Name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="eventSummary" class="form-label">Event Summary</label>
+            <input
+              type="text"
+              class="form-control"
+              id="eventSummary"
+              name="eventSummary"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="insertLinktoPhoto" class="form-label">Photo Link</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ainsertLinktoPhoto"
+              name="insertLinktoPhoto"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    <script src="/scripts/helpers.js"></script>
+    <script src="/scripts/upload.js"></script>
+  </body>
 </html>

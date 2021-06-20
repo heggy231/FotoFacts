@@ -152,3 +152,45 @@ insertLinktoPhoto: DataTypes.STRING
 1. The `/profile` page displays all users in the db
 1. The `/profile/:id` route displays an individual user from the db
 1. The signup page creates a new profile.
+
+### FotoFacts RESTful Routing Overview
+
+Routes for Photos (Users coming soon)
+
+| HTTP Verb | Route                 | RESTful description | Purpose                           |
+| :-------- | --------------------- | ------------------- | --------------------------------- |
+| GET       | \*                    | catchAll            | 404 error handling.               |
+| GET       | /heartbeat            | resSend             | Sanity check.                     |
+| GET       | /                     | static page         | FotoFacts homepage.               |
+| GET       | /sessiondata          | serverSessionInfo   | req.session.                      |
+| GET       | /auth/github          | passportGithubAuth  | Sets Github Auth.                 |
+| GET       | /auth/github/callback | passportGithubCB    | Call back action for Github Auth. |
+| GET       | /logout               | logout              | Log out or redirect to home page. |
+| GET       | /photos               | photoFindAll        | Listing all photos.               |
+| GET       | /photos/:id           | photoFindOne        | List one photo.                   |
+| DELETE    | /photos/:id           | photoDestroy        | Delete one photo.                 |
+| POST      | /uploadphoto          | photoCreate         | Create one photo.                 |
+| PUT/PATCH | /photos/:id           | photoUpdate         | Update one photo.                 |
+
+### FotoFacts Models
+
+- User
+
+| Attribute | Example value                    |
+| :-------- | -------------------------------- |
+| avatar    | https://placeimg.com/128/128/any |
+| firstName | Junghae                          |
+| lastName  | Moon                             |
+| email     | kimchi@naver.kr                  |
+
+- Photo
+
+| Attribute     | Example value                    |
+| :------------ | -------------------------------- |
+| eventTitle    | Eating at Costco                 |
+| genre         | vacation                         |
+| attendee1Name | SoJong Kim                       |
+| attendee2Name | SoJong Kim                       |
+| attendee3Name | SoJong Kim                       |
+| eventSummary  | After a long week                |
+| image         | http://placeimg.com/640/480/food |

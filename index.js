@@ -97,27 +97,12 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.post("/users", async (req, res) => {
-  // req.body contains an Object with firstName, lastName, email
-  const { firstName, lastName, email } = req.body;
-  const newUser = await User.create({
-    firstName,
-    lastName,
-    email,
-  });
-
-  // Send back the new user's ID in the response:
-  res.json({
-    id: newUser.id,
-  });
-});
-
 // list photos here
-// app.get("/photos", ensureAuthenticated, async (req, res) => {
-// app.get("/", async (req, res) => {
-// const users = await User.findAll();
-// const photoArray = photoIds.map(id => data[id]);
-/**
+app.get("/photos", ensureAuthenticated, async (req, res) => {
+  // app.get("/", async (req, res) => {
+  const users = await User.findAll();
+  // const photoArray = photoIds.map(id => data[id]);
+  /**
  * [
   User {
     dataValues: {
@@ -132,24 +117,25 @@ app.post("/users", async (req, res) => {
       updatedAt: 2021-06-11T01:12:10.511Z
     },
   */
-//   console.log('!!!!!*****db data on users root:', users);
-//   res.render("photos", {
-//     locals: {
-//       title: "🎞️ FotoFacts",
-//       users,
-//       path: req.path
-//     },
-//     partials: {
-//       header: "header"
-//     }
-//   });
-// });
+  console.log("!!!!!*****db data on users root:", users);
+  res.render("photos", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      users,
+      path: req.path,
+    },
+    partials: {
+      header: "header",
+    },
+  });
+});
+
 // FotoFacts home page
-// app.get("/", ensureAuthenticated, async (req, res) => {
-// app.get("/", async (req, res) => {
-// const users = await User.findAll();
-// const photoArray = photoIds.map(id => data[id]);
-/**
+app.get("/", ensureAuthenticated, async (req, res) => {
+  // app.get("/", async (req, res) => {
+  const users = await User.findAll();
+  // const photoArray = photoIds.map(id => data[id]);
+  /**
  * [
   User {
     dataValues: {
@@ -164,88 +150,77 @@ app.post("/users", async (req, res) => {
       updatedAt: 2021-06-11T01:12:10.511Z
     },
   */
-//   console.log('!!!!!*****db data on users root:', users);
-//   res.render("index", {
-//     locals: {
-//       title: "🎞️ FotoFacts",
-//       users,
-//       path: req.path
-//     },
-//     partials: {
-//       header: "header"
-//     }
-//   });
-// });
-// Create new user
-app.post("/users", async (req, res) => {
-  // req.body contains an Object with firstName, lastName, email
-  const { firstName, lastName, email, avatar } = req.body;
+  console.log("!!!!!*****db data on users root:", users);
+  res.render("index", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      users,
+      path: req.path,
+    },
+    partials: {
+      header: "header",
+    },
+  });
+});
+
+// Post/upload new photos Create new Photo
+app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
+  // app.post("/uploadphoto", async (req, res) => {
+  // req.body contains an Object with Name, email, url
+
+  const {
+    eventTitle,
+    attendee1Name,
+    attendee2Name,
+    attendee3Name,
+    eventSummary,
+    insertLinktoPhoto,
+  } = req.body;
+
+  console.log("req.body ===******>!!!!!!", req.body);
   const newUser = await User.create({
     firstName,
     lastName,
     email,
-    avatar,
   });
+
   // Send back the new user's ID in the response:
   res.json({
     id: newUser.id,
   });
 });
-// Post/upload new photos Create new Photo
-// app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
-//   // app.post("/uploadphoto", async (req, res) => {
-//     // req.body contains an Object with Name, email, url
-//   const {
-//     eventTitle,
-//     attendee1Name,
-//     attendee2Name,
-//     attendee3Name,
-//     eventSummary,
-//     insertLinktoPhoto
-//   } = req.body;
-//   console.log("req.body ===******>!!!!!!", req.body);
-//   const newUser = await User.create({
-//     eventTitle,
-//     attendee1Name,
-//     attendee2Name,
-//     attendee3Name,
-//     eventSummary,
-//     insertLinktoPhoto
-//   });
-//   // Send back the new user's ID in the response:
-//   res.json({
-//     "message": "new photo created success",
-//     "id": newUser.id,
-//     "eventTitle": newUser.eventTitle
-//   });
-// });
+
 // Delete Photo
-// app.delete('/photos/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const deletedUser = await User.destroy({
-//     where: {
-//       id
-//     }
-//   });
-//   res.json({
-//     "message": "Photo deleted success",
-//     "deletedUser": deletedUser
-//   });
-// });
+app.delete("/photos/:id", async (req, res) => {
+  const { id } = req.params;
+  const deletedUser = await User.destroy({
+    where: {
+      id,
+    },
+  });
+  res.json({
+    message: "Photo deleted success",
+    deletedUser: deletedUser,
+  });
+});
+
 // UPDATE existing Photo
-// app.post('/photos/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const updatedUser = await User.update(req.body, {
-//     where: {
-//       id
-//     }
-//   });
-//   res.json({
-//     "message": "Update one Photo entry success",
-//     "updatedUser": updatedUser
-//   });
-// res.json(updatedUser);
-// });
+app.post("/photos/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const updatedUser = await User.update(req.body, {
+    where: {
+      id,
+    },
+  });
+
+  res.json({
+    message: "Update one Photo entry success",
+    updatedUser: updatedUser,
+  });
+  // res.json(updatedUser);
+});
+
 // GET all Detail photo info: to retrieve a row by the id
 /**
  * {
@@ -262,59 +237,62 @@ app.post("/users", async (req, res) => {
   }
  */
 // put route param :id last of uploadphoto order
-// app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
-// app.get("/uploadphoto/:id", async (req, res) => {
-// console.log('!!!!req.params.id', req.params.id);
-// error handling
-//   try {
-//     const oneUser = await User.findOne({
-//       where: {
-//         id: req.params.id
-//       }
-//     });
-//     console.log('!!!!*******oneUser result', oneUser);
-//     if (oneUser === null) {
-//       res.status(404).render("notfound", {
-//         locals: {
-//           title: "🎞️ FotoFacts 404 Error"
-//         },
-//         partials: {
-//           header: "header"
-//         }
-//       });
-//       return
-//     }
-//     res.render("detail", {
-//       locals: {
-//         oneUser,
-//         title: "🎞️ FotoFacts detail"
-//       },
-//       partials: {
-//         header: "header"
-//       }
-//     });
-//   }
-//   catch (error) {
-//     console.log(error);
-//     res.status(404).render("notfound", {
-//       locals: {
-//         title: "🎞️ FotoFacts 404 Error"
-//       },
-//       partials: {
-//         header: "header"
-//       }
-//     });
-//   }
-// });
-// app.get("/sessiondata", ensureAuthenticated, (req, res) => {
-//   console.log(`
-//     You are on session data page req.session
-//   `);
-//   res.send(`
-//     <h1>Session Data (from the server) req.session:</h1>
-//     <pre>${JSON.stringify(req.session, null, "\t")}</pre>
-//   `);
-// });
+app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
+  // app.get("/uploadphoto/:id", async (req, res) => {
+  console.log("!!!!req.params.id", req.params.id);
+  // error handling
+  try {
+    const oneUser = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    console.log("!!!!*******oneUser result", oneUser);
+
+    if (oneUser === null) {
+      res.status(404).render("notfound", {
+        locals: {
+          title: "🎞️ FotoFacts 404 Error",
+        },
+        partials: {
+          header: "header",
+        },
+      });
+      return;
+    }
+
+    res.render("detail", {
+      locals: {
+        oneUser,
+        title: "🎞️ FotoFacts detail",
+      },
+      partials: {
+        header: "header",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error",
+      },
+      partials: {
+        header: "header",
+      },
+    });
+  }
+});
+
+app.get("/sessiondata", ensureAuthenticated, (req, res) => {
+  console.log(`
+    You are on session data page req.session
+  `);
+  res.send(`
+    <h1>Session Data (from the server) req.session:</h1>
+    <pre>${JSON.stringify(req.session, null, "\t")}</pre>
+  `);
+});
+
 // app.get("/kdrama", ensureAuthenticated, (req, res) => {
 //   res.send(`<h1>Our super secret best kdrama list:</h1>
 //     <ul>
@@ -324,7 +302,8 @@ app.post("/users", async (req, res) => {
 //     </ul>
 //   `);
 // });
-app.get("*", (req, res) => {
+
+app.get("*", ensureAuthenticated, (req, res) => {
   /**
    * catch all route redirect back home
    */

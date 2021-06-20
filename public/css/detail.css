@@ -39,6 +39,42 @@ nav a {
   margin: auto;
 }
 
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile-name {
+  vertical-align: middle;
+  flex-grow: 1;
+  text-align: center;
+}
+
 .text-center {
   text-align: center;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.photo-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.post {
+  width: 100px;
+}
+
+body {
+  position: relative;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
