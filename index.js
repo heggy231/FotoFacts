@@ -166,12 +166,13 @@ app.get("/users", ensureAuthenticated, async (req, res) => {
 // Create new user
 app.post('/users', async (req, res) => {
   // req.body contains an Object with firstName, lastName, email
-  const { firstName, lastName, email, avatarURL } = req.body;
+  const { firstName, lastName, email, avatarURL, username } = req.body;
   const newUser = await User.create({
       firstName,
       lastName,
       email,
-      avatarURL
+      avatarURL,
+      username
   });
   
   // Send back the new user's ID in the response:

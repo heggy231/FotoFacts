@@ -12,7 +12,14 @@ const renderModal = (message, view) => {
   messageDiv.addEventListener('click', () => {
     // alert("Success photos there!");
     // window.location.href = "/photos";
-    window.location.href = view;
+    // if (view) {
+      window.location.href = view;
+    // } else {
+    //   location.reload();
+    // }
   });
   body.appendChild(messageDiv);
 };
+
+// setting global variable to window obj
+// window.renderModal = renderModal;
