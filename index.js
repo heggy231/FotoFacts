@@ -49,7 +49,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/auth/github/callback"
+      callbackURL: "http://localhost:1111/auth/github/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
       // user profile
@@ -180,16 +180,16 @@ app.get('/users/photos', ensureAuthenticated, async (req, res) => {
     }]
   });
   console.log('!!!!!*****db usersArray original form:', usersArray);
-  // res.render("usersWithPhotos", {
-  //   locals: {
-  //     usersArray,
-  //     title: "User with Photos"
-  //   },
-  //   partials: {
-  //     header: "header"
-  //   }
-  // });
-  res.send(usersArray);
+  res.render("usersWithPhotos", {
+    locals: {
+      usersArray,
+      title: "User with Photos"
+    },
+    partials: {
+      header: "header"
+    }
+  });
+  // res.send(usersArray);
 });
 
 // Post/upload new photos Create new Photo ensureAuthenticated
@@ -377,6 +377,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen("8080", () => {
-  console.log("running on port http://localhost:8080");
+app.listen("1111", () => {
+  console.log("running on port http://localhost:1111");
 });

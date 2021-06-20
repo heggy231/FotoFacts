@@ -22,28 +22,17 @@
     </h5>
     <div id="users-list">
       ${
-        usersArray.map(user => `
-          <div class="profile">
-            <h2 class="profile-name">${user.firstName} ${user.lastName}</h2>
-          </div>
-          ${
-            (user.Photos && user.Photos.length > 0) ? 
-              user.Photos.map(photo =>
-                `<img src="${photo.url}">`
-              ).join("") :
-              return
-          }
-        `).join("")
-      }
-
-      ${
         usersArray.map(user => {
-          if (user.Photos && user.Photos.length > 0) {
-            return user.Photos.map(photo => `
-              <img src="${photo.url}">
-            `).join("")
-          }
-        })
+          const photos = user.Photos ?
+            user.Photos.map(photo => `<img src="${photo.url}">`).join("") :
+            `<h1>This user has no images</h1>`
+          return `
+            <div class="profile">
+              <h2 class="profile-name">${user.firstName} ${user.lastName}</h2>
+              ${photos}
+            </div>
+          `;
+          }).join("")
       }
     </div>
   </main>
