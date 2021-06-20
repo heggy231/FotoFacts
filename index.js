@@ -51,7 +51,7 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: "http://localhost:1111/auth/github/callback"
     },
-    function(accessToken, refreshToken, profile, cb) {
+    async function(accessToken, refreshToken, profile, cb) {
       // user profile
       console.log('!!!!! profile github !!! ***', JSON.stringify(profile));
 
@@ -59,6 +59,14 @@ passport.use(
       // You can use this to talk to Github API
       console.log("Access Token: " + accessToken);
 
+      let user = await User.findOrCreate({
+        where: {
+          avatarURL: profile.photos[0].value,
+          loginStrategy: profile.provider,
+          loginStrategyId: profile.id,
+          username: profile.username
+        }
+      });
       // Tell passport job is done. Move on, I got user profile
       // this callback runs when someone logs-in
       // cb(errorMessage = Null No error here, profile=>save the profile info)
@@ -330,7 +338,7 @@ app.get("/users/:id", ensureAuthenticated, async (req, res) => {
       return
     }
 
-    res.render("detail", {
+    res.render("detailUser", {
       locals: {
         oneUser,
         title: "🎞️ User Detail"
