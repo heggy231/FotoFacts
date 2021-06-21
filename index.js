@@ -394,6 +394,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen("8080", () => {
-  console.log("running on port http://localhost:8080");
+app.listen(process.env.PORT, () => {
+  console.log(`running on port + http://localhost:${process.env.PORT}`);
 });
