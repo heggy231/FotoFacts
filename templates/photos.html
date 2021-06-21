@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/images/photofav.jpeg" type="image/x-icon">
+  <!-- bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+  <!-- custom css -->
+  <link rel="stylesheet" href="/css/index.css">
+  <title>${title}</title>
+</head>
+<body>
+  <main class="content">
+    ${header}
+    <h5 class="text-center">
+      <a href="/upload-v1.html">UPLOAD PHOTO</a> ||
+      <a href="/logout">LOGOUT</a>
+    </h5>
+    <h1>Photos Page</h1>
+    <div id="photos-list">
+      ${users.map(photo => `
+        <div class="photo">
+          <img src="${photo.dataValues.insertLinktoPhoto}" alt="photo.dataValues.eventTitle" class="avatar">
+          <h2 class="photo-name">
+            <a href="${path}/${photo.dataValues.id}">${photo.dataValues.eventTitle}</a>
+          </h2>
+          <button 
+          id="deletePhoto-${photo.dataValues.id}"
+          data-photoID="${photo.dataValues.id}">Delete
+          </button>
+        </div>
+        `).join('')}
+    </div>
+  </main>
+  <script src="/scripts/photos.js"></script>
+</body>
+</html>

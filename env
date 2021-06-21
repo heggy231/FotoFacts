@@ -1,0 +1,14 @@
+####  create .env file at your root and add following information.
+
+
+FACEBOOK_CLIENT_ID=*******
+FACEBOOK_SECRET=*******
+
+GITHUB_CLIENT_ID=******
+GITHUB_CLIENT_SECRET=
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fotofacts
+DB_USER=<fill in Windows only>
+DB_PASS=<fill in Windows only>
