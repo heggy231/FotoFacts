@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- favicon -->
+    <link
+      rel="shortcut icon"
+      href="/images/photofav.jpeg"
+      type="image/x-icon"
+    />
+    <!-- bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/upload-v1.css">
+    <title>FotoFacts</title>
+  </head>
+  <body>
+    <div class="content">
+      <h1 class="text-center">
+        <a href="/">🎞️ FotoFacts</a>
+      </h1>
+      <div id="message"></div>
+      <h3 class="text-center">UPLOAD PAGE</h3>
+      <div>
+        <form id="upload">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="title"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee1FirstName" class="form-label">Attendee1 First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee1FirstName"
+              name="attendee1FirstName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee1LastName" class="form-label">Attendee1 Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee1LastName"
+              name="attendee1LastName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee2FirstName" class="form-label">Attendee2 First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee2FirstName"
+              name="attendee2FirstName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee2LastName" class="form-label">Attendee2 Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee2LastName"
+              name="attendee2LastName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee3FirstName" class="form-label">Attendee3 First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee3FirstName"
+              name="attendee3FirstName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee3LastName" class="form-label">Attendee3 Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee3LastName"
+              name="attendee3LastName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input
+              type="text"
+              class="form-control"
+              id="description"
+              name="description"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <input
+              type="text"
+              class="form-control"
+              id="category"
+              name="category"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="url" class="form-label">Photo Link</label>
+            <input
+              type="text"
+              class="form-control"
+              id="url"
+              name="url"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="userId" class="form-label">User ID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="userId"
+              name="userId"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("upload");
+
+        form.onsubmit = (e)=> {
+            e.preventDefault();
+            
+            const formdata = new FormData(e.target);
+            const entries = formdata.entries(); // iterator key value
+            const data = Object.fromEntries(entries); // transform a list of key-value pairs into an obj. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries
+
+              // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+            fetch("/uploadphoto", {
+                "method": "POST",
+                "headers": {
+                    'Content-Type': 'application/json'
+                },
+                "body": JSON.stringify(data) // body data type must match "Content-Type" header
+            })
+
+            console.log("POSTed data to /photos")
+        }
+      });
+    </script>
+  </body>
+</html>
