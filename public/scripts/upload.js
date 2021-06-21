@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
   fetch("/uploadphoto", {
+<<<<<<< HEAD
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -32,6 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   .catch((err) => {
     console.info(err + " url: " + "/uploadphoto");
+=======
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(data), // body data type must match "Content-Type" header
+>>>>>>> main
   });
 
   console.log("POSTed data to /upload");

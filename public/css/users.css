@@ -29,7 +29,7 @@ while the background image is loading */
 background-color: #464646;
 }
 
-nav a {  
+h1 a {  
   color: black;
   text-decoration: none; /* no underline */
 }
@@ -42,12 +42,14 @@ nav a {
 .profile {
   display: flex;
   align-items: center;
+  width: 50%;
 }
 
 .profile-name {
   vertical-align: middle;
   flex-grow: 1;
   text-align: center;
+  margin-right: 20px;
 }
 
 .text-center {
@@ -56,7 +58,7 @@ nav a {
 
 .avatar {
   border-radius: 50%;
-  width: 128px;
+  margin-right: 20px;
 }
 
 .photo-container {
@@ -68,3 +70,21 @@ nav a {
 .post {
   width: 100px;
 }
+
+/* modal */
+body {
+  position: relative;
+}
+
+.alert-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.close {
+  padding-left: 32px;
+}
+/* end of modal styling */

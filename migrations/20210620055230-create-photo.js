@@ -1,37 +1,51 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Photos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      title: {
         type: Sequelize.STRING
       },
-      lastName: {
+      category: {
         type: Sequelize.STRING
       },
-      email: {
+      attendee1FirstName: {
         type: Sequelize.STRING
       },
-<<<<<<< HEAD:migrations/20210618021407-create-user.js
-      avatar: {
-=======
-      avatarURL: {
+      attendee1LastName: {
         type: Sequelize.STRING
       },
-      loginStrategy: {
+      attendee2FirstName: {
         type: Sequelize.STRING
       },
-      loginStrategyId: {
+      attendee2LastName: {
         type: Sequelize.STRING
       },
-      username: {
->>>>>>> main:migrations/20210620044003-create-user.js
+      attendee3FirstName: {
         type: Sequelize.STRING
+      },
+      attendee3LastName: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      url: {
+        type: Sequelize.STRING
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'userId'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -44,6 +58,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Photos');
   }
 };

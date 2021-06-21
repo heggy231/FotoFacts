@@ -5,8 +5,13 @@ const es6Renderer = require("express-es6-template-engine");
 // named export: v4 but rename it uuidv4
 const { v4: uuidv4 } = require("uuid");
 const session = require("express-session");
+<<<<<<< HEAD
 const Sequelize = require("sequelize");
 const { User } = require("./models");
+=======
+const Sequelize = require('sequelize');
+const { User, Photo } = require('./models');
+>>>>>>> main
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
@@ -51,7 +56,7 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: "http://localhost:8080/auth/github/callback",
     },
-    function(accessToken, refreshToken, profile, cb) {
+    async function(accessToken, refreshToken, profile, cb) {
       // user profile
       console.log("!!!!! profile github !!! ***", JSON.stringify(profile));
 
@@ -59,6 +64,14 @@ passport.use(
       // You can use this to talk to Github API
       console.log("Access Token: " + accessToken);
 
+      let user = await User.findOrCreate({
+        where: {
+          avatarURL: profile.photos[0].value,
+          loginStrategy: profile.provider,
+          loginStrategyId: profile.id,
+          username: profile.username
+        }
+      });
       // Tell passport job is done. Move on, I got user profile
       // this callback runs when someone logs-in
       // cb(errorMessage = Null No error here, profile=>save the profile info)
@@ -106,12 +119,26 @@ app.get(
   }
 );
 
+// FotoFacts home page
+app.get("/", ensureAuthenticated, async (req, res) => {
+  res.render("index", {
+    locals: {
+      title: "🎞️ FotoFacts",
+      path: req.path
+    },
+    partials: {
+      header: "header"
+    }
+  });
+});
+
 // logs you out then redirect to root index.html list of photos
 app.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
 
+<<<<<<< HEAD
 // list photos here
 // app.get("/photos", ensureAuthenticated, async (req, res) => {
 // app.get("/", async (req, res) => {
@@ -191,11 +218,125 @@ app.post("/users", async (req, res) => {
     firstName,
     lastName,
     email,
+=======
+// list Users here
+app.get("/users", ensureAuthenticated, async (req, res) => {
+  const usersArray = await User.findAll();
+/**
+ * users = [
+    User {
+            dataValues: {
+              id: 1,
+              firstName: 'Teila',
+              lastName: 'Kim',
+              email: 'tk@nasa.gov',
+              avatarURL: 'https://placeimg.com/128/128/any',
+              createdAt: 2021-06-18T02:27:57.777Z,
+              updatedAt: 2021-06-18T02:27:57.777Z
+         }, {}, {} ]
+ */
+  console.log('!!!!!*****db usersArray original form:', usersArray);
+
+  res.render("users", {
+    locals: {
+      title: "🎞️ Users Page",
+      usersArray,
+      path: req.path
+    },
+    partials: {
+      header: "header"
+    }
+  });
+});
+
+// Create new user
+app.post('/users', async (req, res) => {
+  // req.body contains an Object with firstName, lastName, email
+  const { firstName, lastName, email, avatarURL, username } = req.body;
+  const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      avatarURL,
+      username
+  });
+  
+  // Send back the new user's ID in the response:
+  res.json({
+      id: newUser.id
+  });
+});
+
+// get all users and all photos belongs to users
+//  usersArray= 1st layer: array with obj, 2nd layer: array with obj => map() then inner map()
+// usersArray = [
+//   {   id:, firstName, 
+//       Photos: [ 
+//         { url: "img" }, { url: "img2" } 
+//       ] 
+//   }
+// ];
+app.get('/users/photos', ensureAuthenticated, async (req, res) => {
+  const usersArray = await User.findAll({
+    include: [{
+      model: Photo
+    }]
+  });
+  console.log('!!!!!*****db usersArray original form:', usersArray);
+  res.render("usersWithPhotos", {
+    locals: {
+      usersArray,
+      title: "Users with Photos"
+    },
+    partials: {
+      header: "header"
+    }
+  });
+  // res.send(usersArray);
+});
+
+// Post/upload new photos Create new Photo ensureAuthenticated
+app.post("/uploadphoto", async (req, res) => {
+  // req.body contains an Object with Name, email, url
+  const { 
+    title,
+    category,
+    attendee1FirstName,
+    attendee1LastName,
+    attendee2FirstName,
+    attendee2LastName,
+    attendee3FirstName,
+    attendee3LastName,
+    description,
+    url,
+    userId
+  } = req.body;
+
+  console.log("req.body ===******>!!!!!!", req.body);
+  const newPhoto = await Photo.create({
+    title,
+    category,
+    attendee1FirstName,
+    attendee1LastName,
+    attendee2FirstName,
+    attendee2LastName,
+    attendee3FirstName,
+    attendee3LastName,
+    description,
+    url,
+    userId
+>>>>>>> main
   });
 
   // Send back the new user's ID in the response:
   res.json({
+<<<<<<< HEAD
     id: newUser.id,
+=======
+    "message": "new photo created success",
+    "id": newPhoto.id,
+    "eventTitle": newPhoto.title
+>>>>>>> main
   });
 });
 //   const {
@@ -225,6 +366,7 @@ app.post("/users", async (req, res) => {
 //   });
 // });
 
+<<<<<<< HEAD
 // Delete Photo
 // app.delete("/photos/:id", async (req, res) => {
 //   const { id } = req.params;
@@ -255,22 +397,82 @@ app.post("/users", async (req, res) => {
 //   });
 // res.json(updatedUser);
 // });
+=======
+// Delete User
+app.delete('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const deletedUser = await User.destroy({
+    where: {
+      id
+    }
+  });
+
+  console.log('!!!!! ******* deletedUser', deletedUser); // => if no user found -> 0
+
+  if (deletedUser === 0) {
+    // if no user id is found
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+    return
+  }
+
+  res.json({
+    "message": "User deleted success",
+    "deletedUser": deletedUser
+  });
+});
+
+// UPDATE existing Photo
+app.post('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const updatedUser = await User.update(req.body, {
+    where: {
+      id
+    }
+  });
+
+  console.log('!!!!! ******* User to update', updatedUser); // => if no user found -> [0]
+
+  if (updatedUser[0] === 0) {
+    // if no user id is found
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+    return
+  }
+
+  res.json({
+    "message": "Update one user entry success",
+    "updatedUser": updatedUser
+  });
+});
+>>>>>>> main
 
 // GET all Detail photo info: to retrieve a row by the id
 /**
- * {
-  dataValues: {
-    id: 1,
-    eventTitle: "Teila's birthday",
-    attendee1Name: 'Heggy',
-    attendee2Name: 'Avery',
-    attendee3Name: 'Dan',
-    eventSummary: 'Best birthday party ever!',
-    insertLinktoPhoto: 'https://placeimg.com/128/128/nature',
-    createdAt: 2021-06-11T01:12:10.511Z,
-    updatedAt: 2021-06-11T01:12:10.511Z
-  }
+ * User {
+    dataValues: {
+      id: 5,
+      firstName: 'Korean',
+      lastName: 'Power',
+      email: 'kp@naver.kr',
+      avatarURL: 'https://placeimg.com/128/128/arch/sepia',
+      createdAt: 2021-06-18T07:31:16.270Z,
+      updatedAt: 2021-06-18T07:31:16.270Z
+    }
  */
+<<<<<<< HEAD
 // put route param :id last of uploadphoto order
 // app.get("/photos/:id", ensureAuthenticated, async (req, res) => {
 // app.get("/uploadphoto/:id", async (req, res) => {
@@ -317,6 +519,55 @@ app.post("/users", async (req, res) => {
 //     });
 //   }
 // });
+=======
+// ORDER MATTERS!!! *** put this route param :id very last on index.js among /users/ routes
+app.get("/users/:id", ensureAuthenticated, async (req, res) => {
+  console.log('!!!!*******req.params.id', req.params.id);
+  // error handling
+  try {
+    // const oneUser = await User.findOne({
+    //   where: {
+    //     id: req.params.id
+    //   }
+    // });
+    const oneUser = await User.findByPk(req.params.id);
+    console.log('!!!!*******oneUser result', oneUser);
+
+    if (oneUser === null) {
+      res.status(404).render("notfound", {
+        locals: {
+          title: "🎞️ FotoFacts 404 Error"
+        },
+        partials: {
+          header: "header"
+        }
+      });
+      return
+    }
+
+    res.render("detailUser", {
+      locals: {
+        oneUser,
+        title: "🎞️ User Detail"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(404).render("notfound", {
+      locals: {
+        title: "🎞️ FotoFacts 404 Error"
+      },
+      partials: {
+        header: "header"
+      }
+    });
+  }
+});
+>>>>>>> main
 
 // app.get("/sessiondata", ensureAuthenticated, (req, res) => {
 //   console.log(`
@@ -325,6 +576,7 @@ app.post("/users", async (req, res) => {
 //   res.send(`
 //     <h1>Session Data (from the server) req.session:</h1>
 //     <pre>${JSON.stringify(req.session, null, "\t")}</pre>
+<<<<<<< HEAD
 //   `);
 // });
 
@@ -335,6 +587,8 @@ app.post("/users", async (req, res) => {
 //       <li>Full House</li>
 //       <li>Stairway to Heaven</li>
 //     </ul>
+=======
+>>>>>>> main
 //   `);
 // });
 
@@ -352,6 +606,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen("8080", () => {
-  console.log("running on port http://localhost:8080");
+app.listen(process.env.PORT, () => {
+  console.log(`running on port + http://localhost:${process.env.PORT}`);
 });

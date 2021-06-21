@@ -166,7 +166,7 @@ Routes for Photos (Users coming soon)
 
 | Attribute | Example value |
 | :-------- | --------------------|
-| avatar       | https://placeimg.com/128/128/any |
+| avatarURL       | https://placeimg.com/128/128/any |
 | firstName       | Junghae |
 | lastName       | Moon |
 | email       | kimchi@naver.kr |
@@ -176,10 +176,55 @@ Routes for Photos (Users coming soon)
 
 | Attribute | Example value |
 | :-------- | --------------------|
-| eventTitle       | Eating at Costco |
-| genre       | vacation |
-| attendee1Name       | SoJong Kim |
-| attendee2Name       | SoJong Kim |
-| attendee3Name       | SoJong Kim |
-| eventSummary       | After a long week |
-| image       | http://placeimg.com/640/480/food |
+| title       | Eating at Costco |
+| category       | vacation |
+| attendee1FirstName       | SoJong |
+| attendee1LastName       | Lee |
+| attendee2FirstName       | Teila |
+| attendee2LastName       | Jones |
+| attendee3FirstName       | Avery |
+| attendee3LastName       | Song |
+| description       | After a long week |
+| url       | http://placeimg.com/640/480/food |
+
+### sample code:
+* Users Model:
+
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string,avatarURL:string,loginStrategy:string,loginStrategyId:string,username:string
+
+* Photo Model:
+
+npx sequelize-cli model:generate --name Photo --attributes title:string,category:string,attendee1FirstName:string,attendee1LastName:string,attendee2FirstName:string,attendee2LastName:string,attendee3FirstName:string,attendee3LastName:string,description:string,url:string,userId:integer
+
+- update alert box
+https://getbootstrap.com/docs/4.0/components/alerts/
+
+
+```js
+<div id="users-list">
+  ${
+    usersArray.map(user => `
+      <div class="profile">
+        <h2 class="profile-name">${user.firstName} ${user.lastName}</h2>
+      </div>
+      ${
+        if(user.Photos && user.Photos.length > 0){
+          user.Photos.map(photo =>
+            `<img src="${photo.url}">`
+          ).join("")
+        }
+      }
+    `).join("")
+  }
+
+  ${
+    usersArray.map(user => {
+      if (user.Photos && user.Photos.length > 0) {
+        return user.Photos.map(photo => `
+          <img src="${photo.url}">
+        `).join("")
+      }
+    })
+  }
+</div>
+```

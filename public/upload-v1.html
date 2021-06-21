@@ -29,59 +29,106 @@
       <div>
         <form id="upload">
           <div class="mb-3">
-            <label for="eventTitle" class="form-label">Event Title</label>
+            <label for="title" class="form-label">Title</label>
             <input
               type="text"
               class="form-control"
-              id="eventTitle"
-              name="eventTitle"
+              id="title"
+              name="title"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="attendee1Name" class="form-label">Attendee1 Name</label>
+            <label for="attendee1FirstName" class="form-label">Attendee1 First Name</label>
             <input
               type="text"
               class="form-control"
-              id="attendee1Name"
-              name="attendee1Name"
+              id="attendee1FirstName"
+              name="attendee1FirstName"
             />
           </div>
           <div class="mb-3">
-            <label for="attendee2Name" class="form-label">Attendee2 Name</label>
+            <label for="attendee1LastName" class="form-label">Attendee1 Last Name</label>
             <input
               type="text"
               class="form-control"
-              id="attendee2Name"
-              name="attendee2Name"
+              id="attendee1LastName"
+              name="attendee1LastName"
             />
           </div>
           <div class="mb-3">
-            <label for="attendee3Name" class="form-label">Attendee3 Name</label>
+            <label for="attendee2FirstName" class="form-label">Attendee2 First Name</label>
             <input
               type="text"
               class="form-control"
-              id="attendee3Name"
-              name="attendee3Name"
+              id="attendee2FirstName"
+              name="attendee2FirstName"
             />
           </div>
           <div class="mb-3">
-            <label for="eventSummary" class="form-label">Event Summary</label>
+            <label for="attendee2LastName" class="form-label">Attendee2 Last Name</label>
             <input
               type="text"
               class="form-control"
-              id="eventSummary"
-              name="eventSummary"
+              id="attendee2LastName"
+              name="attendee2LastName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee3FirstName" class="form-label">Attendee3 First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee3FirstName"
+              name="attendee3FirstName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="attendee3LastName" class="form-label">Attendee3 Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attendee3LastName"
+              name="attendee3LastName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input
+              type="text"
+              class="form-control"
+              id="description"
+              name="description"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="insertLinktoPhoto" class="form-label">Photo Link</label>
+            <label for="category" class="form-label">Category</label>
             <input
               type="text"
               class="form-control"
-              id="ainsertLinktoPhoto"
-              name="insertLinktoPhoto"
+              id="category"
+              name="category"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="url" class="form-label">Photo Link</label>
+            <input
+              type="text"
+              class="form-control"
+              id="url"
+              name="url"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="userId" class="form-label">User ID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="userId"
+              name="userId"
               required
             />
           </div>
@@ -89,7 +136,34 @@
         </form>
       </div>
     </div>
+<<<<<<< HEAD
     <script src="/scripts/helpers.js"></script>
     <script src="/scripts/upload.js"></script>
+=======
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("upload");
+
+        form.onsubmit = (e)=> {
+            e.preventDefault();
+            
+            const formdata = new FormData(e.target);
+            const entries = formdata.entries(); // iterator key value
+            const data = Object.fromEntries(entries); // transform a list of key-value pairs into an obj. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries
+
+              // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+            fetch("/uploadphoto", {
+                "method": "POST",
+                "headers": {
+                    'Content-Type': 'application/json'
+                },
+                "body": JSON.stringify(data) // body data type must match "Content-Type" header
+            })
+
+            console.log("POSTed data to /photos")
+        }
+      });
+    </script>
+>>>>>>> main
   </body>
 </html>
