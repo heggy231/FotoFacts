@@ -1,29 +1,7 @@
-<<<<<<< HEAD
-// pass in string message and view is /path
-const renderModal = (message, view) => {
-
-    const body = document.querySelector("body");
-    const messageDiv = document.createElement('div');
-    messageDiv.className = "modal";
-    messageDiv.innerHTML = `
-      <span>
-        ${message}
-        <button>close</button>
-      </span>
-    `;
-    messageDiv.addEventListener('click', () => {
-      // alert("Success photos there!");
-      window.location.href = view;
-    });
-    body.appendChild(messageDiv);
-
-};
-
-=======
 // pass in string message and view is string /path
 const renderModal = (message, view) => {
   const body = document.querySelector("body");
-  const messageDiv = document.createElement('div');
+  const messageDiv = document.createElement("div");
   messageDiv.className = "text-center alert alert-primary alert-box";
   messageDiv.innerHTML = `
     <span>
@@ -31,11 +9,11 @@ const renderModal = (message, view) => {
       <span aria-hidden="true" class="close">&times;</span>
     </span>
   `;
-  messageDiv.addEventListener('click', () => {
+  messageDiv.addEventListener("click", () => {
     // alert("Success photos there!");
     // window.location.href = "/photos";
     // if (view) {
-      window.location.href = view;
+    window.location.href = view;
     // } else {
     //   location.reload();
     // }
@@ -45,4 +23,3 @@ const renderModal = (message, view) => {
 
 // setting global variable to window obj
 // window.renderModal = renderModal;
->>>>>>> main
