@@ -13,14 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Photo, {
         foreignKey: 'userId'
-      }); 
+      });
     }
   };
   User.init({
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
-    avatar: DataTypes.STRING
+    avatarURL: DataTypes.STRING,
+    loginStrategy: DataTypes.STRING,
+    loginStrategyId: DataTypes.STRING,
+    username: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',

@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = Object.fromEntries(entries);
 
     // See API docs: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+    // body is the req.body and body is what I want to send to server
     fetch("/users", {
       method: "POST",
       headers: {

@@ -166,7 +166,7 @@ Routes for Photos (Users coming soon)
 
 | Attribute | Example value |
 | :-------- | --------------------|
-| avatar       | https://placeimg.com/128/128/any |
+| avatarURL       | https://placeimg.com/128/128/any |
 | firstName       | Junghae |
 | lastName       | Moon |
 | email       | kimchi@naver.kr |
@@ -190,8 +190,7 @@ Routes for Photos (Users coming soon)
 ### sample code:
 * Users Model:
 
-npx sequelize-cli model:generate --name User --attributes 
-firstName:string,lastName:string,email:string,avatar:string
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string,avatarURL:string,loginStrategy:string,loginStrategyId:string,username:string
 
 * Photo Model:
 
@@ -230,3 +229,18 @@ https://getbootstrap.com/docs/4.0/components/alerts/
   }
 </div>
 ```
+
+
+avatarURL: profile.photos[0].value,
+          loginStrategy: profile.provider,
+          loginStrategyId = id : profile.id,
+          username: profile.username
+
+{
+  id: '12738884',
+  displayName: 'Heggy Here',
+  username: 'heggy231',
+  profileUrl: 'https://github.com/heggy231',
+  photos: [ { value: 'https://avatars.githubusercontent.com/u/12738884?v=4' } ],
+  provider: 'github',
+
