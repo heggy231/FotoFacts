@@ -29,11 +29,15 @@ app.set("views", "templates"); // when looking for views => dir:templates folder
 app.set("view engine", "html");
 
 // order matters: session middleware before Passport OAuth
-// cookie expires after 6min
+// cookie expires after 10 min 
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
+<<<<<<< HEAD
   cookie: { maxAge: 360000 },
+=======
+  cookie: { maxAge: 600000 }
+>>>>>>> main
 };
 app.use(session(sess));
 
@@ -54,17 +58,43 @@ passport.use(
     },
     async function(accessToken, refreshToken, profile, cb) {
       // user profile
+<<<<<<< HEAD
       console.log("!!!!! profile github !!! ***", JSON.stringify(profile));
       // ASIDE: Access Tokens are super important!! Treat them like pwd (never store in plain text)
       // You can use this to talk to Github API
       console.log("Access Token: " + accessToken);
+=======
+      // console.log('!!!!! LOGIN **** profile github !!! ***', JSON.stringify(profile));
+      // console.log('!!!!! LOGIN **** profile github !!! ***');
+
+      // ASIDE: Access Tokens are super important!! Treat them like pwd (never store in plain text)
+      // You can use this to talk to Github API
+      console.log("!!!!! LOGIN ****  Access Token: " + accessToken);
+
+>>>>>>> main
       let user = await User.findOrCreate({
         where: {
           avatarURL: profile.photos[0].value,
           loginStrategy: profile.provider,
           loginStrategyId: profile.id,
+<<<<<<< HEAD
           username: profile.username,
         },
+=======
+          username: profile.username
+        }, returning: true, plain: true
+      })
+      .then(result => {
+        console.log("******** !!!!!!!before result ", result);
+        id = result[0].dataValues.id
+        console.log("******** !!!!!!!after result ", id);
+        return id;
+        // console.log("******** !!!!!!!req.session.passport.user BEFORE ", req.session.passport.user);
+        // req.session.passport.user = {
+        //   id
+        // }
+        // console.log("******** !!!!!!!req.session.passport.user AFTER ", req.session.passport.user);
+>>>>>>> main
       });
       // Tell passport job is done. Move on, I got user profile
       // this callback runs when someone logs-in
@@ -115,8 +145,15 @@ app.get(
 
 // FotoFacts home page
 app.get("/", ensureAuthenticated, async (req, res) => {
+  const user = req.session.passport.user;
+  const greetUser = req.session.passport.user.displayName;
+  // console.log('~~~~!!!!!***** req.session.passport.user ~~~~!!!!!*****', user);
+  // console.log('~~~~!!!!!***** req.session.passport.user.displayName ~~~~!!!!!*****', greetUser);
+
+  // res.send(user);
   res.render("index", {
     locals: {
+      user,
       title: "🎞️ FotoFacts",
       path: req.path,
     },
@@ -153,7 +190,11 @@ app.get("/users", ensureAuthenticated, async (req, res) => {
               updatedAt: 2021-06-18T02:27:57.777Z
          }, {}, {} ]
  */
+<<<<<<< HEAD
   console.log("!!!!!*****db usersArray original form:", usersArray);
+=======
+  // console.log('!!!!!*****db usersArray original form:', usersArray);
+>>>>>>> main
 
   res.render("users", {
     locals: {
@@ -202,7 +243,11 @@ app.get("/users/photos", ensureAuthenticated, async (req, res) => {
       },
     ],
   });
+<<<<<<< HEAD
   console.log("!!!!!*****db usersArray original form:", usersArray);
+=======
+  // console.log('!!!!!*****db usersArray original form:', usersArray);
+>>>>>>> main
   res.render("usersWithPhotos", {
     locals: {
       usersArray,
@@ -232,7 +277,7 @@ app.post("/uploadphoto", async (req, res) => {
     userId,
   } = req.body;
 
-  console.log("req.body ===******>!!!!!!", req.body);
+  // console.log("req.body ===******>!!!!!!", req.body);
   const newPhoto = await Photo.create({
     title,
     category,
@@ -290,7 +335,11 @@ app.delete("/users/:id", async (req, res) => {
     },
   });
 
+<<<<<<< HEAD
   console.log("!!!!! ******* deletedUser", deletedUser); // => if no user found -> 0
+=======
+  // console.log('!!!!! ******* deletedUser', deletedUser); // => if no user found -> 0
+>>>>>>> main
 
   if (deletedUser === 0) {
     // if no user id is found
@@ -320,7 +369,11 @@ app.post("/users/:id", async (req, res) => {
     },
   });
 
+<<<<<<< HEAD
   console.log("!!!!! ******* User to update", updatedUser); // => if no user found -> [0]
+=======
+  // console.log('!!!!! ******* User to update', updatedUser); // => if no user found -> [0]
+>>>>>>> main
 
   if (updatedUser[0] === 0) {
     // if no user id is found
@@ -356,7 +409,11 @@ app.post("/users/:id", async (req, res) => {
  */
 // ORDER MATTERS!!! *** put this route param :id very last on index.js among /users/ routes
 app.get("/users/:id", ensureAuthenticated, async (req, res) => {
+<<<<<<< HEAD
   console.log("!!!!*******req.params.id", req.params.id);
+=======
+  // console.log('!!!!*******req.params.id', req.params.id);
+>>>>>>> main
   // error handling
   try {
     // const oneUser = await User.findOne({
@@ -365,7 +422,11 @@ app.get("/users/:id", ensureAuthenticated, async (req, res) => {
     //   }
     // });
     const oneUser = await User.findByPk(req.params.id);
+<<<<<<< HEAD
     console.log("!!!!*******oneUser result", oneUser);
+=======
+    // console.log('!!!!*******oneUser result', oneUser);
+>>>>>>> main
 
     if (oneUser === null) {
       res.status(404).render("notfound", {
@@ -388,8 +449,14 @@ app.get("/users/:id", ensureAuthenticated, async (req, res) => {
         header: "header",
       },
     });
+<<<<<<< HEAD
   } catch (error) {
     console.log(error);
+=======
+  }
+  catch (error) {
+    // console.log(error);
+>>>>>>> main
     res.status(404).render("notfound", {
       locals: {
         title: "🎞️ FotoFacts 404 Error",
@@ -401,15 +468,13 @@ app.get("/users/:id", ensureAuthenticated, async (req, res) => {
   }
 });
 
-// app.get("/sessiondata", ensureAuthenticated, (req, res) => {
-//   console.log(`
-//     You are on session data page req.session
-//   `);
-//   res.send(`
-//     <h1>Session Data (from the server) req.session:</h1>
-//     <pre>${JSON.stringify(req.session, null, "\t")}</pre>
-//   `);
-// });
+app.get("/sessiondata", ensureAuthenticated, (req, res) => {
+  // console.log(`You are on session data page req.session`);
+  res.send(`
+    <h1>Session Data (from the server) req.session:</h1>
+    <pre>${JSON.stringify(req.session, null, "\t")}</pre>
+  `);
+});
 
 app.get("*", (req, res) => {
   /**
@@ -426,5 +491,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`running on port + http://localhost:${process.env.PORT}`);
+  console.log(`running on port http://localhost:${process.env.PORT}`);
 });

@@ -228,3 +228,18 @@ https://getbootstrap.com/docs/4.0/components/alerts/
   }
 </div>
 ```
+
+
+avatarURL: profile.photos[0].value,
+          loginStrategy: profile.provider,
+          loginStrategyId = id : profile.id,
+          username: profile.username
+
+{
+  id: '12738884',
+  displayName: 'Heggy Here',
+  username: 'heggy231',
+  profileUrl: 'https://github.com/heggy231',
+  photos: [ { value: 'https://avatars.githubusercontent.com/u/12738884?v=4' } ],
+  provider: 'github',
+
