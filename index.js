@@ -126,6 +126,10 @@ app.get("/", ensureAuthenticated, async (req, res) => {
   });
 });
 
+app.get("/puppytime", async (req, res) => {
+  res.send("dog");
+});
+
 // logs you out then redirect to root index.html list of photos
 app.get("/logout", (req, res) => {
   req.logout();
