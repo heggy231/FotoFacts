@@ -33,7 +33,9 @@ app.set("view engine", "html");
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
-  cookie: { maxAge: 600000 }
+  cookie: { maxAge: 600000 },
+  resave: true,
+  saveUninitalized: true
 };
 app.use(session(sess));
 
@@ -83,7 +85,7 @@ app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
   //What goes INTO the session here; right now it's everything in User
-  done(null, user);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
@@ -138,6 +140,35 @@ app.get("/", ensureAuthenticated, async (req, res) => {
 app.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
+});
+
+// endpoint /profile
+app.get("/profile", (req, res) => {
+  res.redirect(`/profile/${req.session.passport.user}`);
+});
+
+// endpoint /profile/:id  ex: https://localhost:/profile/12738884
+app.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(404).send("profile id is missing");
+  } else {
+    const userData = await User.findOne({
+      where: {
+        loginStrategyId : id
+      }
+    });
+    if(!userData) {
+      res.send('user data not found in the database');
+    } else {
+      res.render('profile', {
+        locals: {
+          isAuthenticated: req.isAuthenticated(),
+          userData
+        }
+      });
+    }
+  }
 });
 
 // list Users here
