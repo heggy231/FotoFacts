@@ -127,7 +127,8 @@ app.get("/", ensureAuthenticated, async (req, res) => {
 });
 
 app.get("/puppytime", async (req, res) => {
-  res.send("dog");
+  // res.send("dog");
+  res.redirect("/puppy.html");
 });
 
 // logs you out then redirect to root index.html list of photos
