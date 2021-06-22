@@ -208,6 +208,7 @@ https://getbootstrap.com/docs/4.0/components/alerts/
       <div class="profile">
         <h2 class="profile-name">${user.firstName} ${user.lastName}</h2>
       </div>
+      
       ${
         if(user.Photos && user.Photos.length > 0){
           user.Photos.map(photo =>
