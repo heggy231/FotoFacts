@@ -29,11 +29,11 @@ app.set("views", "templates"); // when looking for views => dir:templates folder
 app.set("view engine", "html");
 
 // order matters: session middleware before Passport OAuth
-// cookie expires after 6min
+// cookie expires after 10 min 
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
-  cookie: { maxAge: 360000 }
+  cookie: { maxAge: 600000 }
 };
 app.use(session(sess));
 
@@ -117,8 +117,14 @@ app.get(
 
 // FotoFacts home page
 app.get("/", ensureAuthenticated, async (req, res) => {
+  const user = req.session.passport.user;
+  const greetUser = req.session.passport.user.displayName;
+  console.log('~~~~!!!!!***** req.session.passport.user ~~~~!!!!!*****', user);
+  console.log('~~~~!!!!!***** req.session.passport.user.displayName ~~~~!!!!!*****', greetUser);
+  // res.send(user);
   res.render("index", {
     locals: {
+      user,
       title: "🎞️ FotoFacts",
       path: req.path
     },
@@ -371,15 +377,15 @@ app.get("/users/:id", ensureAuthenticated, async (req, res) => {
   }
 });
 
-// app.get("/sessiondata", ensureAuthenticated, (req, res) => {
-//   console.log(`
-//     You are on session data page req.session
-//   `);
-//   res.send(`
-//     <h1>Session Data (from the server) req.session:</h1>
-//     <pre>${JSON.stringify(req.session, null, "\t")}</pre>
-//   `);
-// });
+app.get("/sessiondata", ensureAuthenticated, (req, res) => {
+  console.log(`
+    You are on session data page req.session
+  `);
+  res.send(`
+    <h1>Session Data (from the server) req.session:</h1>
+    <pre>${JSON.stringify(req.session, null, "\t")}</pre>
+  `);
+});
 
 app.get("*", (req, res) => {
   /**
@@ -396,5 +402,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`running on port + http://localhost:${process.env.PORT}`);
+  console.log(`running on port http://localhost:${process.env.PORT}`);
 });
