@@ -44,6 +44,11 @@ app.use(session(sess));
 // creating a new instance of
 //  Remember callbackURL is what I set when signed up for Github OauthApp
 // Setting up Passport & passport strategy
+// Attach the passport middleware to express
+app.use(passport.initialize());
+// BEGIN these next lines make it work with the session middleware
+app.use(passport.session());
+
 passport.use(
   new GitHubStrategy(
     {
@@ -88,11 +93,6 @@ passport.use(
     }
   )
 );
-
-// Attach the passport middleware to express
-app.use(passport.initialize());
-// BEGIN these next lines make it work with the session middleware
-app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
   //What goes INTO the session here; right now it's everything in User
@@ -251,9 +251,14 @@ app.post("/uploadphoto", async (req, res) => {
     attendee3LastName,
     description,
     url,
-    userId,
   } = req.body;
-
+  // console.log("*********" + req.session.passport.user + "*********");
+  const user = await User.findOne({
+    where: {
+      loginStrategyId: req.session.passport.user,
+    },
+  });
+  console.log(user);
   // console.log("req.body ===******>!!!!!!", req.body);
   const newPhoto = await Photo.create({
     title,
@@ -266,7 +271,7 @@ app.post("/uploadphoto", async (req, res) => {
     attendee3LastName,
     description,
     url,
-    userId,
+    userId: user.id,
   });
 
   // Send back the new user's ID in the response:
