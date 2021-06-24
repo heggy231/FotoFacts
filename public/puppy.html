@@ -14,16 +14,31 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/css/upload-v1.css" />
     <title>Buy a dog!</title>
   </head>
   <body>
-    <h1>Dog's Here!</h1>
-    <button type="input" id="generate-dog-btn">Generate Dog</button>
-    <div id="dog-image-div">
-      <h3>LOADING...</h3>
+    <div class="content">
+      <nav>
+        <h1 class="text-center">
+          <a class="no-line" href="/">🎞️ FotoFacts</a>
+        </h1>
+      </nav>
+
+      <h2 class="text-center">Puppy Time!</h2>
+      <div class="puppy-btn">
+        <button
+          type="input"
+          id="generate-dog-btn"
+          class="text-center btn btn-primary"
+        >
+          Generate Puppy
+        </button>
+      </div>
+      <div class="photo-container">
+        <div id="dog-image-div" class="text-center profile"></div>
+      </div>
     </div>
-    <h1>Checkout Button</h1>
-    <button type="input" id="checkout-btn">Checkout</button>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script

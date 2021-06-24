@@ -1,7 +1,7 @@
 const express = require("express");
 const GitHubStrategy = require("passport-github").Strategy;
 const passport = require("passport");
-const { User } = require("../models");
+const { User, Photo } = require("../models");
 const {
   gitHubCallbackURL,
   gitHubClientID,
@@ -47,9 +47,13 @@ passport.deserializeUser(function(id, done) {
   done(null, id);
 });
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
+router.get("/github", passport.authenticate("github"));
+router.get(
+  "/github/callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  function(req, res) {
+    res.redirect("/");
   }
-  res.redirect("/login.html");
-}
+);
+
+module.exports = router;

@@ -8,9 +8,7 @@ const session = require("express-session");
 const Sequelize = require("sequelize");
 const { User, Photo } = require("./models");
 const passport = require("passport");
-const GitHubStrategy = require("passport-github").Strategy;
-
-const heartbeatRouter = require("./routes/heartbeatRouter");
+// const GitHubStrategy = require("passport-github").Strategy;
 
 const app = express();
 
@@ -24,8 +22,7 @@ app.use(express.static("public"));
 // body parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded (converts str => json)
-// Routes
-app.use("/heartbeat", heartbeatRouter);
+
 // Configure Template Engine
 app.engine("html", es6Renderer);
 app.set("views", "templates"); // when looking for views => dir:templates folder
@@ -52,64 +49,91 @@ app.use(passport.initialize());
 // BEGIN these next lines make it work with the session middleware
 app.use(passport.session());
 
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      // callbackURL: "http://localhost:8080/auth/github/callback"
-      callbackURL: process.env.GITHUB_CLIENT_CALLBACKURL,
-    },
-    async function(accessToken, refreshToken, profile, cb) {
-      // user profile
-      // console.log('!!!!! LOGIN **** profile github !!! ***', JSON.stringify(profile));
-      // console.log('!!!!! LOGIN **** profile github !!! ***');
+// ----------------------------------------------------------------------------
+//                                Routes
+// ----------------------------------------------------------------------------
+const { heartbeat, auth } = require("./routes");
+app.use("/heartbeat", heartbeat);
+app.use("/auth", auth);
 
-      // ASIDE: Access Tokens are super important!! Treat them like pwd (never store in plain text)
-      // You can use this to talk to Github API
-      console.log("!!!!! LOGIN ****  Access Token: " + accessToken);
+// passport.use(
+//   new GitHubStrategy(
+//     {
+//       clientID: process.env.GITHUB_CLIENT_ID,
+//       clientSecret: process.env.GITHUB_CLIENT_SECRET,
+//       // callbackURL: "http://localhost:8080/auth/github/callback"
+//       callbackURL: process.env.GITHUB_CLIENT_CALLBACKURL,
+//     },
+//     async function(accessToken, refreshToken, profile, cb) {
+//       // user profile
+//       // console.log('!!!!! LOGIN **** profile github !!! ***', JSON.stringify(profile));
+//       // console.log('!!!!! LOGIN **** profile github !!! ***');
 
-      let user = await User.findOrCreate({
-        where: {
-          avatarURL: profile.photos[0].value,
-          loginStrategy: profile.provider,
-          loginStrategyId: profile.id,
-          username: profile.username,
-        },
-        returning: true,
-        plain: true,
-      }).then((result) => {
-        console.log("******** !!!!!!!before result ", result);
-        id = result[0].dataValues.id;
-        console.log("******** !!!!!!!after result ", id);
-        return id;
-        // console.log("******** !!!!!!!req.session.passport.user BEFORE ", req.session.passport.user);
-        // req.session.passport.user = {
-        //   id
-        // }
-        // console.log("******** !!!!!!!req.session.passport.user AFTER ", req.session.passport.user);
-      });
-      // Tell passport job is done. Move on, I got user profile
-      // this callback runs when someone logs-in
-      // cb(errorMessage = Null No error here, profile=>save the profile info)
-      cb(null, profile);
-    }
-  )
-);
+//       // ASIDE: Access Tokens are super important!! Treat them like pwd (never store in plain text)
+//       // You can use this to talk to Github API
+//       console.log("!!!!! LOGIN ****  Access Token: " + accessToken);
 
-passport.serializeUser(function(user, done) {
-  //What goes INTO the session here; right now it's everything in User
-  done(null, user);
-});
+//       let user = await User.findOrCreate({
+//         where: {
+//           avatarURL: profile.photos[0].value,
+//           loginStrategy: profile.provider,
+//           loginStrategyId: profile.id,
+//           username: profile.username,
+//         },
+//         returning: true,
+//         plain: true,
+//       }).then((result) => {
+//         console.log("******** !!!!!!!before result ", result);
+//         id = result[0].dataValues.id;
+//         console.log("******** !!!!!!!after result ", id);
+//         return id;
+//         // console.log("******** !!!!!!!req.session.passport.user BEFORE ", req.session.passport.user);
+//         // req.session.passport.user = {
+//         //   id
+//         // }
+//         // console.log("******** !!!!!!!req.session.passport.user AFTER ", req.session.passport.user);
+//       });
+//       // Tell passport job is done. Move on, I got user profile
+//       // this callback runs when someone logs-in
+//       // cb(errorMessage = Null No error here, profile=>save the profile info)
+//       cb(null, profile);
+//     }
+//   )
+// );
 
-passport.deserializeUser(function(id, done) {
-  done(null, id);
-  //This is looking up the User in the database using the information from the session "id"
-});
+// passport.serializeUser(function(user, done) {
+//   //What goes INTO the session here; right now it's everything in User
+//   done(null, user);
+// });
+
+// passport.deserializeUser(function(id, done) {
+//   done(null, id);
+//This is looking up the User in the database using the information from the session "id"
+// });
 
 // app.get("/heartbeat", (req, res) => {
 //   res.send("I am up");
 // });
+
+// function to restrict access to routes unless loggedin
+// function ensureAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   res.redirect("/login.html");
+// }
+
+// app.get("/auth/github", passport.authenticate("github"));
+
+// // Callback: this must match the name in the GitHubStrategy above AND the one we typed in Github UI
+// app.get(
+//   "/auth/github/callback",
+//   passport.authenticate("github", { failureRedirect: "/login" }),
+//   function(req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect("/");
+//   }
+// );
 
 // function to restrict access to routes unless loggedin
 function ensureAuthenticated(req, res, next) {
@@ -118,18 +142,6 @@ function ensureAuthenticated(req, res, next) {
   }
   res.redirect("/login.html");
 }
-
-app.get("/auth/github", passport.authenticate("github"));
-
-// Callback: this must match the name in the GitHubStrategy above AND the one we typed in Github UI
-app.get(
-  "/auth/github/callback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/");
-  }
-);
 
 // FotoFacts home page
 app.get("/", ensureAuthenticated, async (req, res) => {
@@ -254,14 +266,8 @@ app.post("/uploadphoto", async (req, res) => {
     attendee3LastName,
     description,
     url,
+    userId,
   } = req.body;
-  // console.log("*********" + req.session.passport.user + "*********");
-  const user = await User.findOne({
-    where: {
-      loginStrategyId: req.session.passport.user,
-    },
-  });
-  console.log(user);
   // console.log("req.body ===******>!!!!!!", req.body);
   const newPhoto = await Photo.create({
     title,
@@ -274,9 +280,8 @@ app.post("/uploadphoto", async (req, res) => {
     attendee3LastName,
     description,
     url,
-    userId: user.id,
+    userId,
   });
-
   // Send back the new user's ID in the response:
   res.json({
     message: "new photo created success",
