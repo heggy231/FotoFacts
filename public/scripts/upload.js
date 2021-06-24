@@ -1,6 +1,5 @@
 // wait for page ready
 document.addEventListener("DOMContentLoaded", () => {
-
   const form = document.getElementById("upload");
 
   form.onsubmit = (e) => {
@@ -17,15 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
-      })
-      .then(response => {
+    })
+      .then((response) => {
         if (response.status === 200) {
           renderModal("Success! Photo Updated!", "/users/photos");
         } else {
-          alert("Error creating new photo!  Server Error code: " + response.status +  "Try again.")
+          alert(
+            "Error creating new photo!  Server Error code: " +
+              response.status +
+              "Try again."
+          );
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.info(err + " url: " + "/users/photos");
       });
 
@@ -38,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //   form.onsubmit = (e)=> {
 //     e.preventDefault();
-    
+
 //     const formdata = new FormData(e.target);
 //     const entries = formdata.entries();
 //     const data = Object.fromEntries(entries);
