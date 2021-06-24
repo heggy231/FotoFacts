@@ -10,6 +10,8 @@ const { User, Photo } = require("./models");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
+const heartbeatRouter = require("./routes/heartbeatRouter");
+
 const app = express();
 
 // ----------------------------------------------------------------------------
@@ -22,7 +24,8 @@ app.use(express.static("public"));
 // body parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded (converts str => json)
-
+// Routes
+app.use("/heartbeat", heartbeatRouter);
 // Configure Template Engine
 app.engine("html", es6Renderer);
 app.set("views", "templates"); // when looking for views => dir:templates folder
@@ -104,9 +107,9 @@ passport.deserializeUser(function(id, done) {
   //This is looking up the User in the database using the information from the session "id"
 });
 
-app.get("/heartbeat", (req, res) => {
-  res.send("I am up");
-});
+// app.get("/heartbeat", (req, res) => {
+//   res.send("I am up");
+// });
 
 // function to restrict access to routes unless loggedin
 function ensureAuthenticated(req, res, next) {
