@@ -5,8 +5,8 @@ const es6Renderer = require("express-es6-template-engine");
 // named export: v4 but rename it uuidv4
 const { v4: uuidv4 } = require("uuid");
 const session = require("express-session");
-const Sequelize = require('sequelize');
-const { User, Photo } = require('./models');
+const Sequelize = require("sequelize");
+const { User, Photo } = require("./models");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 
@@ -29,11 +29,11 @@ app.set("views", "templates"); // when looking for views => dir:templates folder
 app.set("view engine", "html");
 
 // order matters: session middleware before Passport OAuth
-// cookie expires after 10 min 
+// cookie expires after 10 min
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
-  cookie: { maxAge: 600000 }
+  cookie: { maxAge: 600000 },
 };
 app.use(session(sess));
 
@@ -50,7 +50,7 @@ passport.use(
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       // callbackURL: "http://localhost:8080/auth/github/callback"
-      callbackURL: process.env.GITHUB_CLIENT_CALLBACKURL
+      callbackURL: process.env.GITHUB_CLIENT_CALLBACKURL,
     },
     async function(accessToken, refreshToken, profile, cb) {
       // user profile
@@ -66,12 +66,13 @@ passport.use(
           avatarURL: profile.photos[0].value,
           loginStrategy: profile.provider,
           loginStrategyId: profile.id,
-          username: profile.username
-        }, returning: true, plain: true
-      })
-      .then(result => {
+          username: profile.username,
+        },
+        returning: true,
+        plain: true,
+      }).then((result) => {
         console.log("******** !!!!!!!before result ", result);
-        id = result[0].dataValues.id
+        id = result[0].dataValues.id;
         console.log("******** !!!!!!!after result ", id);
         return id;
         // console.log("******** !!!!!!!req.session.passport.user BEFORE ", req.session.passport.user);
@@ -139,11 +140,11 @@ app.get("/", ensureAuthenticated, async (req, res) => {
     locals: {
       user,
       title: "🎞️ FotoFacts",
-      path: req.path
+      path: req.path,
     },
     partials: {
-      header: "header"
-    }
+      header: "header",
+    },
   });
 });
 
@@ -156,7 +157,7 @@ app.get("/logout", (req, res) => {
 // list Users here
 app.get("/users", ensureAuthenticated, async (req, res) => {
   const usersArray = await User.findAll();
-/**
+  /**
  * users = [
     User {
             dataValues: {
@@ -175,64 +176,66 @@ app.get("/users", ensureAuthenticated, async (req, res) => {
     locals: {
       title: "🎞️ Users Page",
       usersArray,
-      path: req.path
+      path: req.path,
     },
     partials: {
-      header: "header"
-    }
+      header: "header",
+    },
   });
 });
 
 // Create new user
-app.post('/users', async (req, res) => {
+app.post("/users", async (req, res) => {
   // req.body contains an Object with firstName, lastName, email
   const { firstName, lastName, email, avatarURL, username } = req.body;
   const newUser = await User.create({
-      firstName,
-      lastName,
-      email,
-      avatarURL,
-      username
+    firstName,
+    lastName,
+    email,
+    avatarURL,
+    username,
   });
-  
+
   // Send back the new user's ID in the response:
   res.json({
-      id: newUser.id
+    id: newUser.id,
   });
 });
 
 // get all users and all photos belongs to users
 //  usersArray= 1st layer: array with obj, 2nd layer: array with obj => map() then inner map()
 // usersArray = [
-//   {   id:, firstName, 
-//       Photos: [ 
-//         { url: "img" }, { url: "img2" } 
-//       ] 
+//   {   id:, firstName,
+//       Photos: [
+//         { url: "img" }, { url: "img2" }
+//       ]
 //   }
 // ];
-app.get('/users/photos', ensureAuthenticated, async (req, res) => {
+app.get("/users/photos", ensureAuthenticated, async (req, res) => {
   const usersArray = await User.findAll({
-    include: [{
-      model: Photo
-    }]
+    include: [
+      {
+        model: Photo,
+      },
+    ],
   });
   // console.log('!!!!!*****db usersArray original form:', usersArray);
   res.render("usersWithPhotos", {
     locals: {
       usersArray,
-      title: "Users with Photos"
+      title: "Users with Photos",
     },
     partials: {
-      header: "header"
-    }
+      header: "header",
+    },
   });
   // res.send(usersArray);
 });
 
 // Post/upload new photos Create new Photo ensureAuthenticated
-app.post("/uploadphoto", async (req, res) => {
+app.post("/uploadphoto", ensureAuthenticated, async (req, res) => {
   // req.body contains an Object with Name, email, url
-  const { 
+  const {
     title,
     category,
     attendee1FirstName,
@@ -243,7 +246,7 @@ app.post("/uploadphoto", async (req, res) => {
     attendee3LastName,
     description,
     url,
-    userId
+    userId,
   } = req.body;
 
   // console.log("req.body ===******>!!!!!!", req.body);
@@ -258,24 +261,24 @@ app.post("/uploadphoto", async (req, res) => {
     attendee3LastName,
     description,
     url,
-    userId
+    userId,
   });
 
   // Send back the new user's ID in the response:
   res.json({
-    "message": "new photo created success",
-    "id": newPhoto.id,
-    "eventTitle": newPhoto.title
+    message: "new photo created success",
+    id: newPhoto.id,
+    eventTitle: newPhoto.title,
   });
 });
 
 // Delete User
-app.delete('/users/:id', async (req, res) => {
+app.delete("/users/:id", async (req, res) => {
   const { id } = req.params;
   const deletedUser = await User.destroy({
     where: {
-      id
-    }
+      id,
+    },
   });
 
   // console.log('!!!!! ******* deletedUser', deletedUser); // => if no user found -> 0
@@ -284,28 +287,28 @@ app.delete('/users/:id', async (req, res) => {
     // if no user id is found
     res.status(404).render("notfound", {
       locals: {
-        title: "🎞️ FotoFacts 404 Error"
+        title: "🎞️ FotoFacts 404 Error",
       },
       partials: {
-        header: "header"
-      }
+        header: "header",
+      },
     });
-    return
+    return;
   }
 
   res.json({
-    "message": "User deleted success",
-    "deletedUser": deletedUser
+    message: "User deleted success",
+    deletedUser: deletedUser,
   });
 });
 
 // UPDATE existing Photo
-app.post('/users/:id', async (req, res) => {
+app.post("/users/:id", async (req, res) => {
   const { id } = req.params;
   const updatedUser = await User.update(req.body, {
     where: {
-      id
-    }
+      id,
+    },
   });
 
   // console.log('!!!!! ******* User to update', updatedUser); // => if no user found -> [0]
@@ -314,18 +317,18 @@ app.post('/users/:id', async (req, res) => {
     // if no user id is found
     res.status(404).render("notfound", {
       locals: {
-        title: "🎞️ FotoFacts 404 Error"
+        title: "🎞️ FotoFacts 404 Error",
       },
       partials: {
-        header: "header"
-      }
+        header: "header",
+      },
     });
-    return
+    return;
   }
 
   res.json({
-    "message": "Update one user entry success",
-    "updatedUser": updatedUser
+    message: "Update one user entry success",
+    updatedUser: updatedUser,
   });
 });
 
@@ -358,34 +361,33 @@ app.get("/users/:id", ensureAuthenticated, async (req, res) => {
     if (oneUser === null) {
       res.status(404).render("notfound", {
         locals: {
-          title: "🎞️ FotoFacts 404 Error"
+          title: "🎞️ FotoFacts 404 Error",
         },
         partials: {
-          header: "header"
-        }
+          header: "header",
+        },
       });
-      return
+      return;
     }
 
     res.render("detailUser", {
       locals: {
         oneUser,
-        title: "🎞️ User Detail"
+        title: "🎞️ User Detail",
       },
       partials: {
-        header: "header"
-      }
+        header: "header",
+      },
     });
-  }
-  catch (error) {
+  } catch (error) {
     // console.log(error);
     res.status(404).render("notfound", {
       locals: {
-        title: "🎞️ FotoFacts 404 Error"
+        title: "🎞️ FotoFacts 404 Error",
       },
       partials: {
-        header: "header"
-      }
+        header: "header",
+      },
     });
   }
 });
@@ -404,11 +406,11 @@ app.get("*", (req, res) => {
    */
   res.status(404).render("notfound", {
     locals: {
-      title: "🎞️ FotoFacts 404 Error"
+      title: "🎞️ FotoFacts 404 Error",
     },
     partials: {
-      header: "header"
-    }
+      header: "header",
+    },
   });
 });
 

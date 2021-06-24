@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "pretty": "prettier-eslint --write \"*.js\"",
-    "db:destroy": "dropdb fotofacts_github"
+    "db:destroy": "dropdb fotofacts"
   },
   "engines": {
     "node": "14.16.1"
