@@ -33,7 +33,7 @@ app.set("view engine", "html");
 // secrete is key that allows browser know that I am the server
 const sess = {
   secret: "keyboard mouse",
-  cookie: { maxAge: 600000 },
+  cookie: { maxAge: 60000000 },
 };
 app.use(session(sess));
 
@@ -55,85 +55,6 @@ app.use(passport.session());
 const { heartbeat, auth } = require("./routes");
 app.use("/heartbeat", heartbeat);
 app.use("/auth", auth);
-
-// passport.use(
-//   new GitHubStrategy(
-//     {
-//       clientID: process.env.GITHUB_CLIENT_ID,
-//       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-//       // callbackURL: "http://localhost:8080/auth/github/callback"
-//       callbackURL: process.env.GITHUB_CLIENT_CALLBACKURL,
-//     },
-//     async function(accessToken, refreshToken, profile, cb) {
-//       // user profile
-//       // console.log('!!!!! LOGIN **** profile github !!! ***', JSON.stringify(profile));
-//       // console.log('!!!!! LOGIN **** profile github !!! ***');
-
-//       // ASIDE: Access Tokens are super important!! Treat them like pwd (never store in plain text)
-//       // You can use this to talk to Github API
-//       console.log("!!!!! LOGIN ****  Access Token: " + accessToken);
-
-//       let user = await User.findOrCreate({
-//         where: {
-//           avatarURL: profile.photos[0].value,
-//           loginStrategy: profile.provider,
-//           loginStrategyId: profile.id,
-//           username: profile.username,
-//         },
-//         returning: true,
-//         plain: true,
-//       }).then((result) => {
-//         console.log("******** !!!!!!!before result ", result);
-//         id = result[0].dataValues.id;
-//         console.log("******** !!!!!!!after result ", id);
-//         return id;
-//         // console.log("******** !!!!!!!req.session.passport.user BEFORE ", req.session.passport.user);
-//         // req.session.passport.user = {
-//         //   id
-//         // }
-//         // console.log("******** !!!!!!!req.session.passport.user AFTER ", req.session.passport.user);
-//       });
-//       // Tell passport job is done. Move on, I got user profile
-//       // this callback runs when someone logs-in
-//       // cb(errorMessage = Null No error here, profile=>save the profile info)
-//       cb(null, profile);
-//     }
-//   )
-// );
-
-// passport.serializeUser(function(user, done) {
-//   //What goes INTO the session here; right now it's everything in User
-//   done(null, user);
-// });
-
-// passport.deserializeUser(function(id, done) {
-//   done(null, id);
-//This is looking up the User in the database using the information from the session "id"
-// });
-
-// app.get("/heartbeat", (req, res) => {
-//   res.send("I am up");
-// });
-
-// function to restrict access to routes unless loggedin
-// function ensureAuthenticated(req, res, next) {
-//   if (req.isAuthenticated()) {
-//     return next();
-//   }
-//   res.redirect("/login.html");
-// }
-
-// app.get("/auth/github", passport.authenticate("github"));
-
-// // Callback: this must match the name in the GitHubStrategy above AND the one we typed in Github UI
-// app.get(
-//   "/auth/github/callback",
-//   passport.authenticate("github", { failureRedirect: "/login" }),
-//   function(req, res) {
-//     // Successful authentication, redirect home.
-//     res.redirect("/");
-//   }
-// );
 
 // function to restrict access to routes unless loggedin
 function ensureAuthenticated(req, res, next) {

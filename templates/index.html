@@ -22,25 +22,29 @@
     <title>${title}</title>
   </head>
   <body>
-    <nav class="navs y-wrap">
-      <ul class="nav-left">
-        <li><a href="/signup.html">SIGNUP</a></li>
-        <li><a href="/upload-v1.html">UPLOAD PHOTO</a></li>
-        <li><a href="/users">USERS 🦸🏽‍♂️🦸🏻‍♂️</a></li>
-        <li><a href="/users/photos">PHOTOS</a></li>
-      </ul>
-      <ul clase="nav-right">
-        <li><a href="/puppy.html">PUPPY TIME! 🐶</a></li>
-        <li><a href="/logout">LOGOUT 👋</a></li>
-      </ul>
-    </nav>
+    <header>
+      <nav class="navs y-wrap">
+        <ul class="nav-left">
+          <li>${header}</li>
+          <li><a href="/signup.html">SIGNUP</a></li>
+          <li><a href="/upload-v1.html">UPLOAD PHOTO</a></li>
+          <li><a href="/users">USERS 🦸🏽‍♂️🦸🏻‍♂️</a></li>
+          <li><a href="/users/photos">PHOTOS</a></li>
+        </ul>
+        <ul class="nav-right">
+          <li><a href="/puppy.html">PUPPY TIME! 🐶</a></li>
+          <li><a href="/logout">LOGOUT 👋</a></li>
+        </ul>
+      </nav>
+    </header>
     <main class="content">
-      ${header}
-      <h2>Hi, ${user.displayName}!</h2>
-      <h3>Your loginStrategy ID: ${user.id}</h3>
+      <!-- ${header} -->
       <div class="text-center">
-        <p>Foto memories</p>
+        <h1>Foto memories</h1>
+        <p>Hi, ${user.displayName}!</p>
+        <p>Your loginStrategy ID: ${user.id}</p>
       </div>
     </main>
+    <footer>Privacy Policy</footer>
   </body>
 </html>
