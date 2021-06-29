@@ -33,6 +33,7 @@ while the background image is loading */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: white;
 }
 
 .avatar {
@@ -43,11 +44,10 @@ while the background image is loading */
 .content {
   width: 400px;
   margin: auto;
-  border: 2px crimson;
 }
 
 footer {
-  background-color: silver;
+  background-color: rgba(174, 161, 255, 0.1);
   bottom: 0;
   padding: 2px 0;
   text-align: center;
@@ -55,9 +55,9 @@ footer {
   width: 100%;
 }
 
-header {
-  background-color: slateblue;
-}
+/* header {
+  background-color: rgba(38, 29, 100, 0.301);
+} */
 
 li {
   margin-right: 14px;
@@ -65,7 +65,7 @@ li {
 
 nav a {
   align-items: center;
-  color: silver;
+  color: whitesmoke;
   text-decoration: none;
 }
 
@@ -76,6 +76,7 @@ nav {
 
 .navs {
   align-items: center;
+  background-color: rgba(174, 161, 255, 0.2);
   display: flex;
 }
 
